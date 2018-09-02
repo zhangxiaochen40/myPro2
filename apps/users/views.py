@@ -7,7 +7,7 @@ from django.db.models import Q
 from django.contrib.auth.hashers import make_password
 
 from .models import UserProfile,EmailVerifyRecord
-from .forms import LoginForm,RegisterForm
+from .forms import LoginForm,RegisterForm,ForgetPwdForm
 from utlis.email_send import send_register_email
 
 
@@ -48,7 +48,15 @@ class LoginView(View):
 
 class ForgetView(View):
     def get(self,request):
-        return render(request,'forgetpwd.html',{})
+        forget_form=ForgetPwdForm()
+        return render(request,'forgetpwd.html',{'forget_form':forget_form})
+
+    def post(self,request):
+        forget_form=ForgetPwdForm(request.POST)
+        if forget_form.is_valid():
+            email=forget_form.email
+            send_register_email(email,'forget')
+            return render(request,'send_success.html',{'forget_form',forget_form})
 
 
 class ActiveView(View):

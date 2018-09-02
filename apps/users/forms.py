@@ -14,3 +14,8 @@ class RegisterForm(forms.Form):
     password=forms.CharField(required=True)
     captcha = CaptchaField(error_messages={'invalid':u"验证码错误"})
 
+
+class ForgetPwdForm(forms.Form):
+    email = forms.EmailField(required=True)
+    captcha = CaptchaField(error_messages={'invalid': u"验证码错误"})
+
