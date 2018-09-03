@@ -1,3 +1,5 @@
+# _*_ coding:utf-8 _*_
+
 """realOnline URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -17,6 +19,7 @@ from django.conf.urls import url,include
 from django.contrib import admin
 from django.views.generic import TemplateView
 from users.views import LoginView,RegisterView,ActiveView,ForgetView,ResetPwdView
+from organization.views import OrgListView
 
 import xadmin
 
@@ -30,4 +33,8 @@ urlpatterns = [
     url(r'^forget/',ForgetView.as_view(),name='forget_pwd'),
     url(r'^reset/(?P<active_code>.*)/$',ResetPwdView.as_view(),name='reset_pwd'),
     url(r'^modify_pwd/',ForgetView.as_view(),name='modify_pwd'),
+
+
+    # 课程机构
+    url(r'^org_list/',OrgListView.as_view(),name='org_list'),
 ]
