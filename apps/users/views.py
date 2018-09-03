@@ -7,7 +7,7 @@ from django.db.models import Q
 from django.contrib.auth.hashers import make_password
 
 from .models import UserProfile,EmailVerifyRecord
-from .forms import LoginForm,RegisterForm,ForgetPwdForm
+from .forms import LoginForm,RegisterForm,ForgetPwdForm,ModifyPwdForm
 from utlis.email_send import send_register_email
 
 
@@ -70,6 +70,41 @@ class ActiveView(View):
             return render(request,'login.html')
         else:
             return render(request,'active_fail.html')
+
+
+class ResetPwdView(View):
+    def get(self,request,active_code):
+        all_records = EmailVerifyRecord.objects.filter(code=active_code)
+        if all_records:
+            for record in all_records:
+                email = record.email
+                return render(request, 'password_reset.html',{'email':email})
+        else:
+            return render(request,'active_fail.html')
+
+        return render(request,'login.html')
+
+
+class ModifyPwdView(View):
+    def post(self,request):
+        modify_form=ModifyPwdForm(request.POST)
+        if modify_form.is_valid():
+            pwd1=request.POST.get('password1','')
+            pwd2 = request.POST.get('password2', '')
+            email=request.POST.get('email','')
+            if pwd1!=pwd2:
+                return render(request,'password_reset.html',{'msg':'密码不一致'})
+            user=UserProfile.objects.get(email=email)
+            user.password=make_password(pwd1)
+            user.save()
+            return render(request,'login.html')
+        else:
+            email=request.POST.get('email','')
+            return render(request,'password_reset.html',{'modify_form':modify_form,'email':email})
+
+
+
+
 
 class RegisterView(View):
     def get(self,request):
