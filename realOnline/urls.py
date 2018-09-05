@@ -18,8 +18,11 @@ Including another URLconf
 from django.conf.urls import url,include
 from django.contrib import admin
 from django.views.generic import TemplateView
+from django.views.static import serve
 from users.views import LoginView,RegisterView,ActiveView,ForgetView,ResetPwdView
 from organization.views import OrgListView
+from realOnline.settings import MEDIA_ROOT
+
 
 import xadmin
 
@@ -37,4 +40,7 @@ urlpatterns = [
 
     # 课程机构
     url(r'^org_list/',OrgListView.as_view(),name='org_list'),
+
+    # 配置上传文件的访问处理函数
+    url(r'^media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT})
 ]
