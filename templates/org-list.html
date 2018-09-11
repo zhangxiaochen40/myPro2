@@ -61,7 +61,7 @@
                 {% for org in org_list.object_list %}
                 <dl class="des difdes">
                     <dt>
-                        <a href="org-detail-homepage.html">
+                        <a href="{% url 'org:org_home' org.id %}">
                             <img width="200" height="120" class="scrollLoading" data-url="{{ MEDIA_URL }}{{ org.image }}"/>
                         </a>
                     </dt>
@@ -129,19 +129,20 @@
 			<div class="head">我要学习</div>
 			<form class="rightform" id="jsStayForm">
 				<div>
-                    <img src="../images/rightform1.png"/>
+                    <img src="{% static 'images/rightform1.png' %}"/>
                     <input type="text" name="name" id="companyName" placeholder="名字" maxlength="25" />
                 </div>
 				<div>
-                    <img src="../images/rightform2.png"/>
+                    <img src="{% static 'images/rightform2.png' %}"/>
                     <input type="text" name="mobile" id="companyMobile" placeholder="联系电话"/>
                 </div>
 				<div>
-                    <img src="../images/rightform3.png"/>
+                    <img src="{% static 'images/rightform3.png' %}"/>
                     <input type="text" name="course_name" id="companyAddress" placeholder="课程名" maxlength="50" />
                 </div>
                 <p class="error company-tips" id="jsCompanyTips"></p>
-				<input class="btn" type="text" id="jsStayBtn" value="立即咨询 >" />
+				<input class="btn" type="text" id="jsStayBtn" value="立即咨询 >" placeholder="" />
+                {% csrf_token %}
             </form>
 		</div>
 	<div class="right companyrank layout">
@@ -161,3 +162,28 @@
     </div>
 </section>
 {% endblock %}
+{% block custom_js %}
+   <script>
+    $(function(){
+        $('#jsStayBtn').on('click', function(){
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url:"{% url "org:add_ask" %}",
+                data:$('#jsStayForm').serialize(),
+                async: true,
+                success: function(data) {
+                    if(data.status == 'success'){
+                        $('#jsStayForm')[0].reset();
+                        alert("提交成功")
+                    }else if(data.status == 'fail'){
+                        $('#jsCompanyTips').html(data.msg)
+                    }
+                },
+            });
+        });
+    })
+
+</script>
+{% endblock %}
+

@@ -12,6 +12,7 @@ from utlis.email_send import send_register_email
 
 
 class CustomBackend(ModelBackend):
+    """用户名验证"""
     def authenticate(self, username=None, password=None, **kwargs):
         try:
             user = UserProfile.objects.get(Q(username=username) | Q(email=username))
@@ -22,7 +23,7 @@ class CustomBackend(ModelBackend):
 
 
 class LoginView(View):
-
+    """用户登陆"""
     def post(self, request):
         login_form = LoginForm(request.POST)
         if login_form.is_valid():
@@ -47,6 +48,7 @@ class LoginView(View):
 
 
 class ForgetView(View):
+    """忘记密码"""
     def get(self,request):
         forget_form=ForgetPwdForm()
         return render(request,'forgetpwd.html',{'forget_form':forget_form})
@@ -60,6 +62,7 @@ class ForgetView(View):
 
 
 class ActiveView(View):
+    """密码激活"""
     def get(self,request,active_code):
         all_records=EmailVerifyRecord.objects.filter(code=active_code)
         if all_records:
@@ -73,12 +76,13 @@ class ActiveView(View):
 
 
 class ResetPwdView(View):
+    """重置密码"""
     def get(self,request,active_code):
         all_records = EmailVerifyRecord.objects.filter(code=active_code)
         if all_records:
             for record in all_records:
                 email = record.email
-                return render(request, 'password_reset.html',{'email':email})
+                return render(request, 'password_reset.html', {'email': email})
         else:
             return render(request,'active_fail.html')
 
@@ -86,27 +90,27 @@ class ResetPwdView(View):
 
 
 class ModifyPwdView(View):
+    """重置密码"""
     def post(self,request):
-        modify_form=ModifyPwdForm(request.POST)
+        modify_form = ModifyPwdForm(request.POST)
         if modify_form.is_valid():
-            pwd1=request.POST.get('password1','')
+            pwd1 = request.POST.get('password1','')
             pwd2 = request.POST.get('password2', '')
-            email=request.POST.get('email','')
-            if pwd1!=pwd2:
-                return render(request,'password_reset.html',{'msg':'密码不一致'})
-            user=UserProfile.objects.get(email=email)
+            email = request.POST.get('email','')
+            if pwd1 != pwd2:
+                return render(request, 'password_reset.html', {'msg': '密码不一致'})
+            user = UserProfile.objects.get(email=email)
             user.password=make_password(pwd1)
             user.save()
             return render(request,'login.html')
         else:
-            email=request.POST.get('email','')
-            return render(request,'password_reset.html',{'modify_form':modify_form,'email':email})
-
-
-
+            email = request.POST.get('email', '')
+            return render(request,'password_reset.html', {'modify_form': modify_form, 'email': email})
 
 
 class RegisterView(View):
+    """注册"""
+    """注册"""
     def get(self,request):
         register_form = RegisterForm()
         return render(request,'register.html',{'register_form':register_form})
