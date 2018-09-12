@@ -11,13 +11,13 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'js/plugins/queryCity/css/cityLayout.css' %}">
     {% block custom_css %}
+    {% endblock %}
 
+    {% block custom_js %}
     {% endblock %}
     <script src="{% static 'js/jquery.min.js' %}" type="text/javascript"></script>
     <script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}" type="text/javascript"></script>
-    {% block custom_js %}
 
-    {% endblock %}
 </head>
 <body>
 <section class="headerwrap headerwrap2">
@@ -40,7 +40,7 @@
             <img class="fl" style="width: 112px;height: 103px" src="{{ MEDIA_URL }}{{ course_org.image }}"/>
             <div class="head fl">
                 <h1>
-                    real
+                    {{ course_org.name }}
                     <img src="{% static 'images/authentication.png' %}"/>
                     <img src="{% static 'images/gold.png' %}"/>
                 </h1>
@@ -75,16 +75,17 @@
 		<div class="left">
 			<ul>
 				<li class="{% ifequal current_page 'home' %} active2{% endifequal %}"><a href="{% url 'org:org_home' course_org.id %}">机构首页</a></li>
-                <li class=""><a href="org-detail-course.html">机构课程</a></li>
-                <li class=""><a href="org-detail-desc.html">机构介绍</a></li>
-                <li class=""><a href="org-detail-teachers.html">机构讲师</a></li>
+                <li class="{% ifequal current_page 'course' %} active2{% endifequal %}"><a href="{% url 'org:org_course' course_org.id %}">机构课程</a></li>
+                <li class="{% ifequal current_page 'desc' %}active2{% endifequal %}"><a href="{% url 'org:org_desc' course_org.id %}">机构介绍</a></li>
+                <li class="{% ifequal current_page 'teacher' %}active2{% endifequal %}"><a href="{% url 'org:org_teacher' course_org.id %}">机构讲师</a></li>
 			</ul>
 		</div>
-    </div>
+
 
     {% block right %}
 
     {% endblock %}
+    </div>
 </section>
 <!--sidebar start-->
 <section>
@@ -112,16 +113,16 @@ function add_fav(current_elem, fav_id, fav_type){
     $.ajax({
         cache: false,
         type: "POST",
-        url:"/org/add_fav/",
+        url:"{% url "org:add_fav" %}",
         data:{'fav_id':fav_id, 'fav_type':fav_type},
         async: true,
         beforeSend:function(xhr, settings){
-            xhr.setRequestHeader("X-CSRFToken", "5I2SlleZJOMUX9QbwYLUIAOshdrdpRcy");
+            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
         },
         success: function(data) {
             if(data.status == 'fail'){
                 if(data.msg == '用户未登录'){
-                    window.location.href="login.html";
+                    window.location.href="/login/";
                 }else{
                     alert(data.msg)
                 }
@@ -133,17 +134,16 @@ function add_fav(current_elem, fav_id, fav_type){
     });
 }
 
-$(document).ready(function() {
-    $('.collectionbtn').on('click', function(){
-        add_fav($(this), 1, 2);
-    });
+$('.collectionbtn').on('click', function(){
+    add_fav($(this), {{ course_org.id }}, 2);
 });
+
 $(function(){
     var $precision = $('.precision'),
         score = $precision.attr('data-star-scope'),
         option =  {
                     half		: true,
-                    path		: '../images/',
+                    path		: '{% static 'images/' %}',
                     precision	: true,
                     size		: 24,
                     starOff		: 'g_star.png',
@@ -156,23 +156,21 @@ $(function(){
                 };
     $precision.raty(option);
 
-    $(document).ready(function() {
-        $('.jsFavBtn').on('click', function () {
-            var type = $(this).attr('data-fav-type');
-            if (type == '1') {
-                favPraise($(this), 'fav', 1, '收藏');
+    $('.jsFavBtn').on('click', function(){
+        var type = $(this).attr('data-fav-type');
+        if(type == '1'){
+            favPraise($(this), 'fav' ,1 , '收藏');
 
-            } else if (type == '3') {
-                favPraise($(this), 'fav', 3);
+        }else if(type == '3'){
+            favPraise($(this), 'fav' ,3 );
 
-            } else if (type == '11') {
-                favPraise($(this), 'pra', 1);
+        }else if(type == '11'){
+            favPraise($(this), 'pra', 1);
 
-            } else if (type == '4') {
-                favPraise($(this), 'fav', 4);
+        }else if(type == '4'){
+            favPraise($(this), 'fav' ,4 );
 
-            }
-        });
+        }
     });
 })
 </script>

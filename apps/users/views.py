@@ -5,10 +5,15 @@ from django.views.generic import View
 from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password
+from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
 
 from .models import UserProfile,EmailVerifyRecord
 from .forms import LoginForm,RegisterForm,ForgetPwdForm,ModifyPwdForm
 from utlis.email_send import send_register_email
+from organization.models import CourseOrg, Teacher
+from courses.models import Course
+from .models import Banner
 
 
 class CustomBackend(ModelBackend):
@@ -24,27 +29,25 @@ class CustomBackend(ModelBackend):
 
 class LoginView(View):
     """用户登陆"""
+    def get(self, request):
+        return render(request, "login.html", {})
+
     def post(self, request):
         login_form = LoginForm(request.POST)
         if login_form.is_valid():
-            username = request.POST.get('username', '')
-            password = request.POST.get('password', '')
-            user = authenticate(username=username, password=password)
-
+            user_name = request.POST.get("username", "")
+            pass_word = request.POST.get("password", "")
+            user = authenticate(username=user_name, password=pass_word)
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return request(request, 'index.html', {})
+                    return HttpResponseRedirect(reverse("index"))
                 else:
-                    return render(request, 'login.html', {'msg': '用户名未激活！'})
+                    return render(request, "login.html", {"msg": "用户未激活！"})
             else:
-                return render(request, 'login.html', {'msg': '用户名或密码错误！'})
+                return render(request, "login.html", {"msg": "用户名或密码错误！"})
         else:
             return render(request, "login.html", {"login_form": login_form})
-
-    def get(self, request):
-
-        return render(request, 'login.html', {})
 
 
 class ForgetView(View):
@@ -135,3 +138,20 @@ class RegisterView(View):
             return render(request,'login.html')
         else:
             return render(request,'register.html','{}')
+
+
+class IndexView(View):
+    # real在线网 首页
+    def get(self, request):
+        #取出轮播图
+        all_banners = Banner.objects.all().order_by('index')
+        courses = Course.objects.filter(is_banner=False)[:6]
+        banner_courses = Course.objects.filter(is_banner=True)[:3]
+        course_orgs = CourseOrg.objects.all()[:15]
+        return render(request, 'index.html', {
+            'all_banners':all_banners,
+            'courses':courses,
+            'banner_courses':banner_courses,
+            'course_orgs':course_orgs
+        })
+
