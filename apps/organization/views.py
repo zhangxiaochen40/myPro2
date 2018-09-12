@@ -79,6 +79,12 @@ class OrgHomeView(View):
     def get(self, request, org_id):
         current_page = 'home'
         course_org = CourseOrg.objects.get(id=int(org_id))
+        # 是否收藏
+        has_fav = False
+        # 判断用户是否收藏
+        if request.user.is_authenticated():
+            if UserFavorite.objects.filter(user=request.user,fav_id=course_org.id,fav_type=2):
+                has_fav = True
         all_course = course_org.course_set.all()
         all_teacher = course_org.teacher_set.all()
 
@@ -87,6 +93,7 @@ class OrgHomeView(View):
             'all_teacher': all_teacher,
             'current_page': current_page,
             'course_org': course_org,
+            'has_fav': has_fav
         })
 
 
@@ -97,12 +104,18 @@ class OrgCourseView(View):
     def get(self, request, org_id):
         current_page = 'course'
         course_org = CourseOrg.objects.get(id=int(org_id))
+        # 判断用户是否收藏
+        has_fav = False
+        if request.user.is_authenticated():
+            if UserFavorite.objects.filter(user=request.user,fav_id=course_org.id,fav_type=2):
+                has_fav = True
         all_course = course_org.course_set.all()
 
         return render(request, 'org-detail-course.html', {
             'all_course': all_course,
             'current_page': current_page,
             'course_org': course_org,
+            'has_fav': has_fav
         })
 
 
@@ -114,10 +127,14 @@ class OrgDescView(View):
     def get(self, request, org_id):
         current_page = 'desc'
         course_org = CourseOrg.objects.get(id=int(org_id))
-
+        has_fav = False
+        if request.user.is_authenticated():
+            if UserFavorite.objects.filter(user=request.user,fav_id=course_org.id,fav_type=2):
+                has_fav = True
         return render(request, 'org-detail-desc.html', {
             'current_page': current_page,
             'course_org': course_org,
+            'has_fav': has_fav
         })
 
 
@@ -127,6 +144,12 @@ class OrgTeacherView(View):
     def get(self, request, org_id):
         current_page = 'teacher'
         course_org = CourseOrg.objects.get(id=int(org_id))
+
+        has_fav = False
+        if request.user.is_authenticated():
+            if UserFavorite.objects.filter(user=request.user,fav_id=course_org.id,fav_type=2):
+                has_fav = True
+
         all_course = course_org.course_set.all()
         all_teacher = course_org.teacher_set.all()
 
@@ -135,6 +158,7 @@ class OrgTeacherView(View):
             'all_teacher': all_teacher,
             'current_page': current_page,
             'course_org': course_org,
+            'has_fav': has_fav
         })
 
 
