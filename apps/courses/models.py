@@ -43,6 +43,10 @@ class Course(models.Model):
         # 获得课程的教师人数
         return self.course_org.teacher_set.all().count()
 
+    def get_lesson(self, request):
+        # 获得章节
+        return self.lesson_set.all()
+
     def __unicode__(self):
         return self.name
 
@@ -56,6 +60,10 @@ class Lesson(models.Model):
     class Meta:
         verbose_name = u"章节"
         verbose_name_plural = verbose_name
+
+    def get_lesson_video(self):
+        # 获得章节的视频
+        return self.video_set.all()
 
     def __str__(self):
         return self.name

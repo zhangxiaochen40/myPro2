@@ -2,9 +2,10 @@
 from django.shortcuts import render
 from django.views.generic.base import View
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
+from django.http import HttpResponse
 
-from .models import Course
-from operation.models import UserFavorite
+from .models import Course, CourseResource
+from operation.models import UserFavorite, CourseComments
 
 # Create your views here.
 
@@ -74,3 +75,64 @@ class CourseDetailView(View):
             'fav_course': fav_course,
             'fav_org': fav_org
         })
+
+
+class CourseInfoView(View):
+    """
+    课程详情
+    """
+    def get(self, request, course_id):
+
+        course_info = Course.objects.get(id=int(course_id))
+        lessons = course_info.get_lesson(request)
+        # 课程资源
+        all_resources = CourseResource.objects.filter(course=course_info)
+
+        return render(request, 'course-video.html', {
+            'course_info': course_info,
+            'all_resources': all_resources,
+            'lessons': lessons
+        })
+
+
+class CourseCommentView(View):
+    """
+    课程评论
+    """
+    def get(self, request, course_id):
+
+        course_info = Course.objects.get(id=int(course_id))
+        lessons = course_info.get_lesson(request)
+        # 课程资源
+        all_resources = CourseResource.objects.filter(course=course_info)
+        # 当前课程的所有评论
+        all_comment = CourseComments.objects.filter(course=course_info)
+
+        return render(request, 'course-comment.html', {
+            'course_info': course_info,
+            'all_resources': all_resources,
+            'lessons': lessons,
+            'all_comment': all_comment
+        })
+
+
+class AddCourseComment(View):
+    """
+    添加评论
+    """
+    def post(self, request):
+        course_id = request.POST.get('course_id', 0)
+        comments = request.POST.get('comments', '')
+
+        if not request.user.is_authenticated():
+            return HttpResponse("{'status':'fail','msg':'用户未登陆'}", content_type='application/json')
+        if int(course_id) > 0 and comments:
+            course = Course.objects.get(id=int(course_id))
+            course_comment = CourseComments()
+            course_comment.comments = comments
+            course_comment.course = course
+            course_comment.user = request.user
+            course_comment.save()
+            return HttpResponse("{'status':'success','msg':'添加成功'}", content_type='application/json')
+        else:
+            return HttpResponse("{'status':'fail','msg':'添加失败'}", content_type='application.json')
