@@ -50,7 +50,7 @@
                     <em></em>
                 </div>
                 <div class="static-item">
-                    <span class="meta-value"><strong>{{ course_info.get_learn_people }}</strong></span>
+                    <span class="meta-value"><strong>{{ course_info.students }}</strong></span>
                     <span class="meta">学习人数</span>
                     <em></em>
                 </div>
@@ -81,7 +81,7 @@
                         <ul class="video">
                             {% for video in lesson.get_lesson_video %}
                             <li>
-                                <a target="_blank" href="{{ MEDIA_URL }}{{ video.url }}" class="J-media-item studyvideo">{{ video.name }}
+                                <a target="_blank" href="{% url 'course:video_play' video.id %}" class="J-media-item studyvideo">{{ video.name }}
                                     <i class="study-state"></i>
                                 </a>
                             </li>
