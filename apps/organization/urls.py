@@ -1,7 +1,7 @@
 # _*_coding:utf-8 _*_
 
 from django.conf.urls import url, include
-from .views import OrgListView, AddAskView, OrgHomeView, OrgCourseView, OrgDescView, OrgTeacherView, AddFavView
+from .views import OrgListView, AddAskView, OrgHomeView, OrgCourseView, OrgDescView, OrgTeacherView, AddFavView, TeacherListView
 
 urlpatterns = [
     # 课程机构列表页
@@ -13,6 +13,8 @@ urlpatterns = [
     # 用户咨询
     url(r'^add_ask', AddAskView.as_view(), name='add_ask'),
 
+    # 教师列表
+    url(r'^teacher/list/$', TeacherListView.as_view(), name='teacher_list'),
     # 用户收藏或者取消收藏
     url(r'^add_fav', AddFavView.as_view(), name='add_fav'),
 
