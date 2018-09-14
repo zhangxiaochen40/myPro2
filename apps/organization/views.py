@@ -218,3 +218,34 @@ class TeacherListView(View):
             'hot_teachers': hot_teachers,
             'sort': sort
         })
+
+
+class TeacherDetialView(View):
+    """
+    讲师详情
+    """
+    def get(self, request, teacher_id):
+        teacher = Teacher.objects.get(id=int(teacher_id))
+        courses = teacher.course_set.all()
+        org = teacher.org
+        # 判断教师是否收藏
+        has_teacher_fav = False
+        if request.user.is_authenticated():
+            if UserFavorite.objects.filter(user=request.user, fav_type=3, fav_id=int(teacher.id)):
+                has_teacher_fav = True
+        # 判断机构是否收藏
+        has_org_fav = False
+        if request.user.is_authenticated():
+            if UserFavorite.objects.filter(user=request.user, fav_type=2, fav_id=int(teacher.org.id)):
+                has_org_fav = True
+
+        # 热门教师
+        hot_teachers = Teacher.objects.all().order_by('-click_nums')[:3]
+        return render(request, 'teacher-detail.html', {
+            'teacher': teacher,
+            'courses': courses,
+            'org': org,
+            'hot_teachers': hot_teachers,
+            'has_teacher_fav': has_teacher_fav,
+            'has_org_fav': has_org_fav
+        })
