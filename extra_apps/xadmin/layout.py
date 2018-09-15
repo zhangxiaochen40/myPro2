@@ -44,7 +44,7 @@ class Col(layout.Column):
         if kwargs.get('horizontal'):
             css_class.append('form-horizontal')
         super(Col, self).__init__(css_class=' '.join(css_class), *
-                                  fields, **kwargs)
+        fields, **kwargs)
 
 
 class Main(layout.Column):
@@ -61,7 +61,6 @@ class Container(layout.Div):
 
 # Override bootstrap3
 class InputGroup(layout.Field):
-
     template = "xadmin/layout/input_group.html"
 
     def __init__(self, field, *args, **kwargs):
@@ -82,13 +81,13 @@ class InputGroup(layout.Field):
     def render(self, form, form_style, context, template_pack=TEMPLATE_PACK, **kwargs):
         classes = form.fields[self.field].widget.attrs.get('class', '')
         extra_context = {
-            'inputs': self.inputs, 
+            'inputs': self.inputs,
             'input_size': self.input_size,
             'classes': classes.replace('form-control', '')
         }
         if hasattr(self, 'wrapper_class'):
             extra_context['wrapper_class'] = self.wrapper_class
-            
+
         return render_field(
             self.field, form, form_style, context, template=self.template,
             attrs=self.attrs, template_pack=template_pack, extra_context=extra_context, **kwargs)

@@ -15,22 +15,22 @@ class UserProfile(AbstractUser):
     image = models.ImageField(upload_to="image/%Y/%m", default=u"image/default.png", max_length=100)
 
     class Meta:
-        verbose_name=u'用户信息'
-        verbose_name_plural=verbose_name
+        verbose_name = u'用户信息'
+        verbose_name_plural = verbose_name
 
     def __unicode__(self):
         return self.username
 
 
 class EmailVerifyRecord(models.Model):
-    code=models.CharField(max_length=20,verbose_name=u'验证码')
-    email=models.EmailField(max_length=50,verbose_name=u'邮箱')
-    send_type=models.CharField(choices=(('register', u'注册'), ('forget', u'找回密码' )) ,max_length=30)
-    send_time=models.DateTimeField(default=datetime.now)
+    code = models.CharField(max_length=20, verbose_name=u'验证码')
+    email = models.EmailField(max_length=50, verbose_name=u'邮箱')
+    send_type = models.CharField(choices=(('register', u'注册'), ('forget', u'找回密码')), max_length=30)
+    send_time = models.DateTimeField(default=datetime.now)
 
     class Meta:
-        verbose_name=u'邮箱验证码'
-        verbose_name_plural=verbose_name
+        verbose_name = u'邮箱验证码'
+        verbose_name_plural = verbose_name
 
 
 class Banner(models.Model):

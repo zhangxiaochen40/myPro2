@@ -94,10 +94,10 @@ class M2MSelectPlugin(BaseAdminPlugin):
 
     def init_request(self, *args, **kwargs):
         return hasattr(self.admin_view, 'style_fields') and \
-            (
-                'm2m_transfer' in self.admin_view.style_fields.values() or
-                'm2m_dropdown' in self.admin_view.style_fields.values()
-        )
+               (
+                       'm2m_transfer' in self.admin_view.style_fields.values() or
+                       'm2m_dropdown' in self.admin_view.style_fields.values()
+               )
 
     def get_field_style(self, attrs, db_field, style, **kwargs):
         if style == 'm2m_transfer' and isinstance(db_field, ManyToManyField):

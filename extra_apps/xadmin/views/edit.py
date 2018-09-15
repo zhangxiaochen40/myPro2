@@ -22,7 +22,6 @@ from xadmin.views.detail import DetailAdminUtil
 
 from .base import ModelAdminView, filter_hook, csrf_protect_m
 
-
 FORMFIELD_FOR_DBFIELD_DEFAULTS = {
     models.DateTimeField: {
         'form_class': forms.SplitDateTimeField,
@@ -199,8 +198,8 @@ class ModelFormAdminView(ModelAdminView):
 
         if layout is None:
             layout = Layout(Container(Col('full',
-                Fieldset("", *fields, css_class="unsort no_title"), horizontal=True, span=12)
-            ))
+                                          Fieldset("", *fields, css_class="unsort no_title"), horizontal=True, span=12)
+                                      ))
         elif type(layout) in (list, tuple) and len(layout) > 0:
             if isinstance(layout[0], Column):
                 fs = layout
@@ -333,7 +332,7 @@ class ModelFormAdminView(ModelAdminView):
                                  and (change or new_context['show_delete'])),
             'show_save_as_new': change and self.save_as,
             'show_save_and_add_another': new_context['has_add_permission'] and
-                                (not self.save_as or add),
+                                         (not self.save_as or add),
             'show_save_and_continue': new_context['has_change_permission'],
             'show_save': True
         })
@@ -356,7 +355,7 @@ class ModelFormAdminView(ModelAdminView):
     @filter_hook
     def get_media(self):
         return super(ModelFormAdminView, self).get_media() + self.form_obj.media + \
-            self.vendor('xadmin.page.form.js', 'xadmin.form.css')
+               self.vendor('xadmin.page.form.js', 'xadmin.form.css')
 
 
 class CreateAdminView(ModelFormAdminView):
@@ -424,7 +423,10 @@ class CreateAdminView(ModelFormAdminView):
 
         msg = _(
             'The %(name)s "%(obj)s" was added successfully.') % {'name': force_text(self.opts.verbose_name),
-                                                                 'obj': "<a class='alert-link' href='%s'>%s</a>" % (self.model_admin_url('change', self.new_obj._get_pk_val()), force_text(self.new_obj))}
+                                                                 'obj': "<a class='alert-link' href='%s'>%s</a>" % (
+                                                                 self.model_admin_url('change',
+                                                                                      self.new_obj._get_pk_val()),
+                                                                 force_text(self.new_obj))}
 
         if "_continue" in request.POST:
             self.message_user(
@@ -432,7 +434,8 @@ class CreateAdminView(ModelFormAdminView):
             return self.model_admin_url('change', self.new_obj._get_pk_val())
 
         if "_addanother" in request.POST:
-            self.message_user(msg + ' ' + (_("You may add another %s below.") % force_text(self.opts.verbose_name)), 'success')
+            self.message_user(msg + ' ' + (_("You may add another %s below.") % force_text(self.opts.verbose_name)),
+                              'success')
             return request.path
         else:
             self.message_user(msg, 'success')
@@ -520,14 +523,15 @@ class UpdateAdminView(ModelFormAdminView):
         pk_value = obj._get_pk_val()
 
         msg = _('The %(name)s "%(obj)s" was changed successfully.') % {'name':
-                                                                       force_text(verbose_name), 'obj': force_text(obj)}
+                                                                           force_text(verbose_name),
+                                                                       'obj': force_text(obj)}
         if "_continue" in request.POST:
             self.message_user(
                 msg + ' ' + _("You may edit it again below."), 'success')
             return request.path
         elif "_addanother" in request.POST:
             self.message_user(msg + ' ' + (_("You may add another %s below.")
-                              % force_text(verbose_name)), 'success')
+                                           % force_text(verbose_name)), 'success')
             return self.model_admin_url('add')
         else:
             self.message_user(msg, 'success')
@@ -539,7 +543,7 @@ class UpdateAdminView(ModelFormAdminView):
             elif self.has_view_permission():
                 change_list_url = self.model_admin_url('changelist')
                 if 'LIST_QUERY' in self.request.session \
-                and self.request.session['LIST_QUERY'][0] == self.model_info:
+                        and self.request.session['LIST_QUERY'][0] == self.model_info:
                     change_list_url += '?' + self.request.session['LIST_QUERY'][1]
                 return change_list_url
             else:

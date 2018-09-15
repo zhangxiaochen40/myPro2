@@ -8,7 +8,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -34,8 +33,12 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=50, verbose_name='\u673a\u6784\u540d\u79f0')),
                 ('desc', models.TextField(verbose_name='\u673a\u6784\u63cf\u8ff0')),
-                ('tag', models.CharField(default=b'\xe5\x85\xa8\xe5\x9b\xbd\xe7\x9f\xa5\xe5\x90\x8d', max_length=10, verbose_name='\u673a\u6784\u6807\u7b7e')),
-                ('category', models.CharField(choices=[(b'pxjg', b'\xe5\x9f\xb9\xe8\xae\xad\xe6\x9c\xba\xe6\x9e\x84'), (b'gr', b'\xe4\xb8\xaa\xe4\xba\xba'), (b'gx', b'\xe9\xab\x98\xe6\xa0\xa1')], default=b'pxjg', max_length=20, verbose_name='\u673a\u6784\u7c7b\u522b')),
+                ('tag', models.CharField(default=b'\xe5\x85\xa8\xe5\x9b\xbd\xe7\x9f\xa5\xe5\x90\x8d', max_length=10,
+                                         verbose_name='\u673a\u6784\u6807\u7b7e')),
+                ('category', models.CharField(choices=[(b'pxjg', b'\xe5\x9f\xb9\xe8\xae\xad\xe6\x9c\xba\xe6\x9e\x84'),
+                                                       (b'gr', b'\xe4\xb8\xaa\xe4\xba\xba'),
+                                                       (b'gx', b'\xe9\xab\x98\xe6\xa0\xa1')], default=b'pxjg',
+                                              max_length=20, verbose_name='\u673a\u6784\u7c7b\u522b')),
                 ('click_nums', models.IntegerField(default=0, verbose_name='\u70b9\u51fb\u6570')),
                 ('fav_nums', models.IntegerField(default=0, verbose_name='\u6536\u85cf\u6570')),
                 ('image', models.ImageField(upload_to=b'org/%Y/%m', verbose_name='logo')),
@@ -43,7 +46,8 @@ class Migration(migrations.Migration):
                 ('students', models.IntegerField(default=0, verbose_name='\u5b66\u4e60\u4eba\u6570')),
                 ('course_nums', models.IntegerField(default=0, verbose_name='\u8bfe\u7a0b\u6570')),
                 ('add_time', models.DateTimeField(default=datetime.datetime.now)),
-                ('city', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='organization.CityDict', verbose_name='\u6240\u5728\u57ce\u5e02')),
+                ('city', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='organization.CityDict',
+                                           verbose_name='\u6240\u5728\u57ce\u5e02')),
             ],
             options={
                 'verbose_name': '\u8bfe\u7a0b\u673a\u6784',
@@ -64,7 +68,8 @@ class Migration(migrations.Migration):
                 ('age', models.IntegerField(default=18, verbose_name='\u5e74\u9f84')),
                 ('image', models.ImageField(default=b'', upload_to=b'teacher/%Y/%m', verbose_name='\u5934\u50cf')),
                 ('add_time', models.DateTimeField(default=datetime.datetime.now)),
-                ('org', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='organization.CourseOrg', verbose_name='\u6240\u5c5e\u673a\u6784')),
+                ('org', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='organization.CourseOrg',
+                                          verbose_name='\u6240\u5c5e\u673a\u6784')),
             ],
             options={
                 'verbose_name': '\u6559\u5e08',

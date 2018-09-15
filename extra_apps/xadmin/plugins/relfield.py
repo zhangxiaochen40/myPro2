@@ -48,7 +48,8 @@ class ForeignKeySearchWidget(forms.Widget):
 
         output = [format_html('<select{0}>', flatatt(final_attrs))]
         if value:
-            output.append(format_html('<option selected="selected" value="{0}">{1}</option>', value, self.label_for_value(value)))
+            output.append(
+                format_html('<option selected="selected" value="{0}">{1}</option>', value, self.label_for_value(value)))
         output.append('</select>')
         return mark_safe('\n'.join(output))
 
@@ -87,7 +88,9 @@ class RelateFieldPlugin(BaseAdminPlugin):
                     self.has_model_perm(db_field.remote_field.to, 'view'):
                 db = kwargs.get('using')
                 return dict(attrs or {},
-                            widget=(style == 'fk-ajax' and ForeignKeySearchWidget or ForeignKeySelectWidget)(db_field.remote_field, self.admin_view, using=db))
+                            widget=(style == 'fk-ajax' and ForeignKeySearchWidget or ForeignKeySelectWidget)(
+                                db_field.remote_field, self.admin_view, using=db))
         return attrs
+
 
 site.register_plugin(RelateFieldPlugin, ModelFormAdminView)

@@ -20,6 +20,7 @@ from xadmin.views.detail import DetailAdminUtil
 
 from .base import CommAdminView, filter_hook, csrf_protect_m
 
+
 class FormAdminView(CommAdminView):
     form = forms.ModelForm
     title = None
@@ -57,8 +58,8 @@ class FormAdminView(CommAdminView):
 
         if layout is None:
             layout = Layout(Container(Col('full',
-                Fieldset("", *fields, css_class="unsort no_title"), horizontal=True, span=12)
-            ))
+                                          Fieldset("", *fields, css_class="unsort no_title"), horizontal=True, span=12)
+                                      ))
         elif type(layout) in (list, tuple) and len(layout) > 0:
             if isinstance(layout[0], Column):
                 fs = layout
@@ -132,7 +133,7 @@ class FormAdminView(CommAdminView):
     @filter_hook
     def get_media(self):
         return super(FormAdminView, self).get_media() + self.form_obj.media + \
-            self.vendor('xadmin.page.form.js', 'xadmin.form.css')
+               self.vendor('xadmin.page.form.js', 'xadmin.form.css')
 
     def get_initial_data(self):
         return {}

@@ -150,7 +150,7 @@ class FilterPlugin(BaseAdminPlugin):
         try:
             for key, value in lookup_params.items():
                 use_distinct = (
-                    use_distinct or lookup_needs_distinct(self.opts, key))
+                        use_distinct or lookup_needs_distinct(self.opts, key))
         except FieldDoesNotExist as e:
             raise IncorrectLookupParameters(e)
 

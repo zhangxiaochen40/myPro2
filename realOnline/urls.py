@@ -19,10 +19,9 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views.static import serve
-from users.views import LoginView, RegisterView, ActiveView, ForgetView, ResetPwdView,IndexView
+from users.views import LoginView, RegisterView, ActiveView, ForgetView, ResetPwdView, IndexView
 from organization.views import OrgListView
 from realOnline.settings import MEDIA_ROOT
-
 
 import xadmin
 
@@ -32,9 +31,9 @@ urlpatterns = [
     url(r'^login/$', LoginView.as_view(), name='login'),
     url(r'^register$', RegisterView.as_view(), name='register'),
     url(r'^captcha/', include('captcha.urls')),
-    url(r'^active/(?P<active_code>.*)/$', ActiveView.as_view(),name='user_active'),
+    url(r'^active/(?P<active_code>.*)/$', ActiveView.as_view(), name='user_active'),
     url(r'^forget/', ForgetView.as_view(), name='forget_pwd'),
-    url(r'^reset/(?P<active_code>.*)/$', ResetPwdView.as_view(),name='reset_pwd'),
+    url(r'^reset/(?P<active_code>.*)/$', ResetPwdView.as_view(), name='reset_pwd'),
     url(r'^modify_pwd/', ForgetView.as_view(), name='modify_pwd'),
 
     # 课程机构url配置

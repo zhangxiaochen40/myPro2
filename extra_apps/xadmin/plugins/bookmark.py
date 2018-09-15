@@ -1,4 +1,3 @@
-
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.db import transaction
@@ -25,7 +24,6 @@ csrf_protect_m = method_decorator(csrf_protect)
 
 
 class BookmarkPlugin(BaseAdminPlugin):
-
     # [{'title': "Female", 'query': {'gender': True}, 'order': ('-age'), 'cols': ('first_name', 'age', 'phones'), 'search': 'Tom'}]
     list_bookmarks = []
     show_bookmarks = True
@@ -43,16 +41,16 @@ class BookmarkPlugin(BaseAdminPlugin):
         bookmarks = []
 
         current_qs = '&'.join([
-                '%s=%s' % (k, v)
-                for k, v in sorted(filter(
-                        lambda i: bool(i[1] and (
-                                i[0] in (COL_LIST_VAR, ORDER_VAR, SEARCH_VAR)
-                                or i[0].startswith(FILTER_PREFIX)
-                                or i[0].startswith(RELATE_PREFIX)
-                                )),
-                        self.request.GET.items()
-                        ))
-                ])
+            '%s=%s' % (k, v)
+            for k, v in sorted(filter(
+                lambda i: bool(i[1] and (
+                        i[0] in (COL_LIST_VAR, ORDER_VAR, SEARCH_VAR)
+                        or i[0].startswith(FILTER_PREFIX)
+                        or i[0].startswith(RELATE_PREFIX)
+                )),
+                self.request.GET.items()
+            ))
+        ])
 
         model_info = (self.opts.app_label, self.opts.model_name)
         has_selected = False
@@ -64,21 +62,23 @@ class BookmarkPlugin(BaseAdminPlugin):
         for bk in self.list_bookmarks:
             title = bk['title']
             params = dict([
-                    (FILTER_PREFIX + k, v)
-                    for (k, v) in bk['query'].items()
-                    ])
+                (FILTER_PREFIX + k, v)
+                for (k, v) in bk['query'].items()
+            ])
             if 'order' in bk:
                 params[ORDER_VAR] = '.'.join(bk['order'])
             if 'cols' in bk:
                 params[COL_LIST_VAR] = '.'.join(bk['cols'])
             if 'search' in bk:
                 params[SEARCH_VAR] = bk['search']
+
             def check_item(i):
                 return bool(i[1]) or i[1] == False
+
             bk_qs = '&'.join([
-                    '%s=%s' % (k, v)
-                    for k, v in sorted(filter(check_item, params.items()))
-                    ])
+                '%s=%s' % (k, v)
+                for k, v in sorted(filter(check_item, params.items()))
+            ])
 
             url = list_base_url + '?' + bk_qs
             selected = (current_qs == bk_qs)
@@ -105,8 +105,8 @@ class BookmarkPlugin(BaseAdminPlugin):
                 change_or_detail = 'detail'
 
             bookmarks.append({'title': bk.title, 'selected': selected, 'url': bk.url, 'edit_url':
-                              reverse('xadmin:%s_%s_%s' % (bk_model_info[0], bk_model_info[1], change_or_detail),
-                                      args=(bk.id,))})
+                reverse('xadmin:%s_%s_%s' % (bk_model_info[0], bk_model_info[1], change_or_detail),
+                        args=(bk.id,))})
             if selected:
                 menu_title = bk.title
                 has_selected = True
@@ -156,7 +156,6 @@ class BookmarkView(ModelAdminView):
 
 
 class BookmarkAdmin(object):
-
     model_icon = 'fa fa-book'
     list_display = ('title', 'user', 'url_name', 'query')
     list_display_links = ('title',)
@@ -173,7 +172,6 @@ class BookmarkAdmin(object):
         if not self.user.is_superuser:
             list_display.remove('user')
         return list_display
-
 
     def has_change_permission(self, obj=None):
         if not obj or self.user.is_superuser:
@@ -222,14 +220,15 @@ class BookmarkWidget(PartialBaseWidget):
         context['result_headers'] = [c for c in list_view.result_headers(
         ).cells if c.field_name in base_fields]
         context['results'] = [
-                [o for i, o in enumerate(filter(
-                            lambda c: c.field_name in base_fields,
-                            r.cells
-                            ))]
-                for r in list_view.results()
-                ]
+            [o for i, o in enumerate(filter(
+                lambda c: c.field_name in base_fields,
+                r.cells
+            ))]
+            for r in list_view.results()
+        ]
         context['result_count'] = list_view.result_count
         context['page_url'] = self.bookmark.url
+
 
 site.register(Bookmark, BookmarkAdmin)
 site.register_plugin(BookmarkPlugin, ListAdminView)

@@ -4,6 +4,7 @@ Form Widget classes specific to the Django admin site.
 from __future__ import absolute_import
 from itertools import chain
 from django import forms
+
 try:
     from django.forms.widgets import ChoiceWidget as RadioChoiceInput
 except:
@@ -31,8 +32,10 @@ class AdminDateWidget(forms.DateInput):
 
     def render(self, name, value, attrs=None):
         input_html = super(AdminDateWidget, self).render(name, value, attrs)
-        return mark_safe('<div class="input-group date bootstrap-datepicker"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>%s'
-                         '<span class="input-group-btn"><button class="btn btn-default" type="button">%s</button></span></div>' % (input_html, _(u'Today')))
+        return mark_safe(
+            '<div class="input-group date bootstrap-datepicker"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>%s'
+            '<span class="input-group-btn"><button class="btn btn-default" type="button">%s</button></span></div>' % (
+            input_html, _(u'Today')))
 
 
 class AdminTimeWidget(forms.TimeInput):
@@ -49,8 +52,10 @@ class AdminTimeWidget(forms.TimeInput):
 
     def render(self, name, value, attrs=None):
         input_html = super(AdminTimeWidget, self).render(name, value, attrs)
-        return mark_safe('<div class="input-group time bootstrap-clockpicker"><span class="input-group-addon"><i class="fa fa-clock-o">'
-                         '</i></span>%s<span class="input-group-btn"><button class="btn btn-default" type="button">%s</button></span></div>' % (input_html, _(u'Now')))
+        return mark_safe(
+            '<div class="input-group time bootstrap-clockpicker"><span class="input-group-addon"><i class="fa fa-clock-o">'
+            '</i></span>%s<span class="input-group-btn"><button class="btn btn-default" type="button">%s</button></span></div>' % (
+            input_html, _(u'Now')))
 
 
 class AdminSelectWidget(forms.Select):
@@ -76,10 +81,12 @@ class AdminSplitDateTime(forms.SplitDateTimeWidget):
             input_html = [ht for ht in super(AdminSplitDateTime, self).render(name, value, attrs).replace(
                 '/><input', '/>\n<input').split('\n') if ht != '']
             # return input_html
-            return mark_safe('<div class="datetime clearfix"><div class="input-group date bootstrap-datepicker"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>%s'
-                             '<span class="input-group-btn"><button class="btn btn-default" type="button">%s</button></span></div>'
-                             '<div class="input-group time bootstrap-clockpicker"><span class="input-group-addon"><i class="fa fa-clock-o">'
-                             '</i></span>%s<span class="input-group-btn"><button class="btn btn-default" type="button">%s</button></span></div></div>' % (input_html[0], _(u'Today'), input_html[1], _(u'Now')))
+            return mark_safe(
+                '<div class="datetime clearfix"><div class="input-group date bootstrap-datepicker"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>%s'
+                '<span class="input-group-btn"><button class="btn btn-default" type="button">%s</button></span></div>'
+                '<div class="input-group time bootstrap-clockpicker"><span class="input-group-addon"><i class="fa fa-clock-o">'
+                '</i></span>%s<span class="input-group-btn"><button class="btn btn-default" type="button">%s</button></span></div></div>' % (
+                input_html[0], _(u'Today'), input_html[1], _(u'Now')))
         else:
             return super(AdminSplitDateTime, self).render(name, value, attrs)
 
@@ -153,9 +160,11 @@ class AdminCheckboxSelect(forms.CheckboxSelectMultiple):
             option_label = conditional_escape(force_text(option_label))
 
             if final_attrs.get('inline', False):
-                output.append(u'<label%s class="checkbox-inline">%s %s</label>' % (label_for, rendered_cb, option_label))
+                output.append(
+                    u'<label%s class="checkbox-inline">%s %s</label>' % (label_for, rendered_cb, option_label))
             else:
-                output.append(u'<div class="checkbox"><label%s>%s %s</label></div>' % (label_for, rendered_cb, option_label))
+                output.append(
+                    u'<div class="checkbox"><label%s>%s %s</label></div>' % (label_for, rendered_cb, option_label))
         return mark_safe(u'\n'.join(output))
 
 

@@ -1,14 +1,15 @@
 jQuery.fn.extend({
     uploadPreview: function (opts) {
-        $(this).each(function(){
-             var _self = this,
+        $(this).each(function () {
+            var _self = this,
                 _this = $(this);
             opts = jQuery.extend({
                 Img: "ImgPr",
                 Width: 100,
                 Height: 100,
                 ImgType: ["gif", "jpeg", "jpg", "bmp", "png"],
-                Callback: function () {}
+                Callback: function () {
+                }
             }, opts || {});
             _self.getObjectURL = function (file) {
                 var url = null;

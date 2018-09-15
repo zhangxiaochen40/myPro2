@@ -7,11 +7,13 @@ from django.http import HttpResponse
 from .models import Course, CourseResource, Video
 from operation.models import UserFavorite, CourseComments, UserCourse
 
+
 # Create your views here.
 
 
 class CourseListView(View):
     """课程列表页"""
+
     def get(self, request):
 
         all_courses = Course.objects.all().order_by('-add_time')
@@ -47,6 +49,7 @@ class CourseDetailView(View):
     """
     课程详情页
     """
+
     def get(self, request, course_id):
 
         course = Course.objects.get(id=int(course_id))
@@ -81,8 +84,8 @@ class CourseInfoView(View):
     """
     课程详情
     """
-    def get(self, request, course_id):
 
+    def get(self, request, course_id):
         course_info = Course.objects.get(id=int(course_id))
         course_info.students += 1
         course_info.save()
@@ -119,8 +122,8 @@ class CourseCommentView(View):
     """
     课程评论
     """
-    def get(self, request, course_id):
 
+    def get(self, request, course_id):
         course_info = Course.objects.get(id=int(course_id))
         lessons = course_info.get_lesson(request)
         # 课程资源
@@ -140,6 +143,7 @@ class AddCourseComment(View):
     """
     添加评论
     """
+
     def post(self, request):
         course_id = request.POST.get('course_id', 0)
         comments = request.POST.get('comments', '')

@@ -1,10 +1,10 @@
 /*******************************************************************************
-* 异步上传文件兼容IE8，火狐和谷歌可用
-* 实现单个多次上传不刷新
-* 修改自：http://www.ponxu.com
-* @author 柳伟伟 <702295399@qq.com>
-* @version 1.3 (2015-6-14)
-*******************************************************************************/
+ * 异步上传文件兼容IE8，火狐和谷歌可用
+ * 实现单个多次上传不刷新
+ * 修改自：http://www.ponxu.com
+ * @author 柳伟伟 <702295399@qq.com>
+ * @version 1.3 (2015-6-14)
+ *******************************************************************************/
 (function ($) {
 
     var frameCount = 0;
@@ -28,6 +28,7 @@
         //先得到当前的对象和参数，接着进行克隆（同时克隆事件）
         //将克隆好的副本放在原先的之后，按照顺序逐个删除，最后初始化克隆的副本
     }
+
     function ajaxSubmit(target) {
 
         var options = state.options;
@@ -53,7 +54,7 @@
             var fileHtml = $(target).prop("outerHTML");
 
 
-             colfile = $(target).clone(true);
+            colfile = $(target).clone(true);
 
 
             $(target).replaceWith(colfile)
@@ -153,7 +154,11 @@
         url: '',
         dataType: 'json',
         params: {},
-        onSend: function (obj, str) { return true; },
-        onComplate: function () { return true; }
+        onSend: function (obj, str) {
+            return true;
+        },
+        onComplate: function () {
+            return true;
+        }
     });
 })(jQuery);

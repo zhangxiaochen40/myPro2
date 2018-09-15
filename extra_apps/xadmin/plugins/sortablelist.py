@@ -19,7 +19,6 @@ from xadmin.views.base import csrf_protect_m
 
 
 class SortableListPlugin(BaseAdminPlugin):
-
     list_order_field = None
 
     def init_request(self, *args, **kwargs):

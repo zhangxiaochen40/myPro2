@@ -25,7 +25,8 @@ class DeleteAdminView(ModelAdminView):
             raise PermissionDenied
 
         if self.obj is None:
-            raise Http404(_('%(name)s object with primary key %(key)r does not exist.') % {'name': force_text(self.opts.verbose_name), 'key': escape(object_id)})
+            raise Http404(_('%(name)s object with primary key %(key)r does not exist.') % {
+                'name': force_text(self.opts.verbose_name), 'key': escape(object_id)})
 
         using = router.db_for_write(self.model)
 
@@ -69,7 +70,7 @@ class DeleteAdminView(ModelAdminView):
     def get_context(self):
         if self.perms_needed or self.protected:
             title = _("Cannot delete %(name)s") % {"name":
-                                                   force_text(self.opts.verbose_name)}
+                                                       force_text(self.opts.verbose_name)}
         else:
             title = _("Are you sure?")
 

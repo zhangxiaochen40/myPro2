@@ -5,21 +5,22 @@ from django.core.mail import send_mail
 from users.models import EmailVerifyRecord
 from realOnline.settings import EMAIL_FROM
 
+
 def random_str(randomlength=8):
     str = ''
     chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789'
     length = len(chars) - 1
     random = Random()
     for i in range(randomlength):
-        str+=chars[random.randint(0, length)]
+        str += chars[random.randint(0, length)]
     return str
 
 
 def send_register_email(email, send_type="register"):
     email_record = EmailVerifyRecord()
 
-    email_record.email=email
-    email_record.send_type=send_type
+    email_record.email = email
+    email_record.send_type = send_type
 
     if send_type == "update_email":
         code = random_str(4)

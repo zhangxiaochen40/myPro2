@@ -7,7 +7,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('users', '0001_initial'),
     ]
@@ -21,7 +20,8 @@ class Migration(migrations.Migration):
                 ('image', models.ImageField(upload_to='banner/%Y/%m', verbose_name='\u8f6e\u64ad\u56fe')),
                 ('url', models.URLField(verbose_name='\u8bbf\u95ee\u5730\u5740')),
                 ('index', models.IntegerField(default=100, verbose_name='\u987a\u5e8f')),
-                ('add_time', models.DateTimeField(default=datetime.datetime.now, verbose_name='\u6dfb\u52a0\u65f6\u95f4')),
+                ('add_time',
+                 models.DateTimeField(default=datetime.datetime.now, verbose_name='\u6dfb\u52a0\u65f6\u95f4')),
             ],
             options={
                 'verbose_name': '\u8f6e\u64ad\u56fe',
@@ -34,7 +34,9 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('code', models.CharField(max_length=20, verbose_name='\u9a8c\u8bc1\u7801')),
                 ('email', models.EmailField(max_length=50, verbose_name='\u90ae\u7bb1')),
-                ('send_type', models.CharField(choices=[('register', '\u6ce8\u518c'), ('forget', '\u627e\u56de\u5bc6\u7801')], max_length=30)),
+                ('send_type',
+                 models.CharField(choices=[('register', '\u6ce8\u518c'), ('forget', '\u627e\u56de\u5bc6\u7801')],
+                                  max_length=30)),
                 ('send_time', models.DateTimeField(default=datetime.datetime.now)),
             ],
             options={
@@ -45,6 +47,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='userprofile',
             name='gender',
-            field=models.CharField(choices=[('male', '\u7537'), ('female', '\u5973')], default='female', max_length=100),
+            field=models.CharField(choices=[('male', '\u7537'), ('female', '\u5973')], default='female',
+                                   max_length=100),
         ),
     ]

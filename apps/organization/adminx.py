@@ -2,7 +2,6 @@
 
 import xadmin
 
-
 from .models import CityDict, CourseOrg, Teacher
 
 
@@ -18,7 +17,7 @@ class CourseOrgAdmin(object):
     search_fields = ['name', 'desc', 'click_nums', 'fav_nums']
     list_filter = ['name', 'desc', 'click_nums', 'fav_nums']
     relfield_style = 'fk-ajax'
-    style_fields = {"desc":"ueditor"}
+    style_fields = {"desc": "ueditor"}
     model_icon = 'fa fa-university'
 
 

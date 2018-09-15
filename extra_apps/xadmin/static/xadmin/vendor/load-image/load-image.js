@@ -35,9 +35,9 @@
                 }
             };
             if (loadImage.isInstanceOf('Blob', file) ||
-                    // Files are also Blob instances, but some browsers
-                    // (Firefox 3.6) support the File API but not Blobs:
-                    loadImage.isInstanceOf('File', file)) {
+                // Files are also Blob instances, but some browsers
+                // (Firefox 3.6) support the File API but not Blobs:
+                loadImage.isInstanceOf('File', file)) {
                 url = oUrl = loadImage.createObjectURL(file);
                 // Store the file type for resize processing:
                 img._type = file.type;

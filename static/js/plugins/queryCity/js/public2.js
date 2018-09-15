@@ -1,5 +1,5 @@
-(function() {
-    $(".proCitySelAll").click(function(event) {
+(function () {
+    $(".proCitySelAll").click(function (event) {
         var $box = $(".provinceCityAll"),
             $body = $("body");
         if ($body.data("CitysAll") == null) {
@@ -14,11 +14,11 @@
         var t2 = o2.top;
         var h2 = $(this).height();
         $box.css("top", t2 + h2 + 20).css("left", "1rem").toggle();
-        $box.click(function(event) {
+        $box.click(function (event) {
             event.stopPropagation();
         });
         event.stopPropagation();
-        $("html").click(function() {
+        $("html").click(function () {
             $box.hide();
         });
         $("input.proCitySelAll").removeClass("current2");
@@ -33,13 +33,15 @@
         if ($body.data("allCountys") == null) {
             sendAllCountiesAjax();
         }
-        $box.find(".tabs").find("a").click(function() {
+        $box.find(".tabs").find("a").click(function () {
             if ($(this).attr("tb") == "cityAll" && $(".provinceAll .list .current").val() == null) {
                 return;
-            };
+            }
+            ;
             if ($(this).attr("tb") == "countyAll" && $(".cityAll .list .current").val() == null && $(".hotCityAll .list .current").val() == null) {
                 return;
-            };
+            }
+            ;
             $box.find(".tabs").find("a").removeClass("current");
             $(this).addClass("current");
             var tb = $(this).attr("tb");
@@ -49,7 +51,7 @@
     });
 })();
 
-(function() {
+(function () {
     var clkIndex;
     var currentClass;
     var allCitys;
@@ -58,15 +60,14 @@
     var thisObj;
     var dimCityDiv = "<div id='dimCityQuery'><ul></ul></div>";
     $("body").append(dimCityDiv);
-    $("body").delegate(".proCityQuery,.proCityQueryAll", ($.browser.opera ? "keypress": "keyup"),
-        function(event) {
+    $("body").delegate(".proCityQuery,.proCityQueryAll", ($.browser.opera ? "keypress" : "keyup"),
+        function (event) {
             if ($("#dimCityQuery:visible").size() == 0) {
                 $(".backifname").hide();
             }
             $(".provinceCity").hide();
             $(".provinceCityAll").hide();
-            if ($(this).hasClass("proCityQueryAll"))
-            {
+            if ($(this).hasClass("proCityQueryAll")) {
                 if ($("body").data("allProvinces") == null) {
                     sendAllProvinceAjax();
                 }
@@ -83,8 +84,7 @@
                 allCountys = $("body").data("allCountys");
                 thisObj = $(this);
             }
-            if ($(this).hasClass("proCityQuery"))
-            {
+            if ($(this).hasClass("proCityQuery")) {
                 if ($("body").data("allExistProvinces") == null) {
                     sendProvinceAjax();
                 }
@@ -135,27 +135,30 @@
                         break;
                         return false;
                     }
-                    autoWidth = autoWidth < (allCountys[i].cityName + allCountys[i].areaName + allCountys[i].pinYinChar).length ? (allCountys[i].cityName + allCountys[i].areaName + allCountys[i].pinYinChar).length: autoWidth;
+                    autoWidth = autoWidth < (allCountys[i].cityName + allCountys[i].areaName + allCountys[i].pinYinChar).length ? (allCountys[i].cityName + allCountys[i].areaName + allCountys[i].pinYinChar).length : autoWidth;
                     continue;
-                };
+                }
+                ;
                 if (v === allCountys[i].areaName.substring(0, v.length)) {
                     htmlArr[htmlArr.length] = "<li><a class='allcityClass' href='javascript:' provinceId=" + allCountys[i].provinceId + " cityId=" + allCountys[i].cityId + " countyId=" + allCountys[i].id + ">" + allCountys[i].cityName + "-" + "<span style='color:red'>" + v + "</span>" + allCountys[i].areaName.substring(v.length, allCountys[i].areaName.length) + " (" + allCountys[i].pinYinChar + ")</a></li>";
                     if (htmlArr.length > 9) {
                         break;
                         return false;
                     }
-                    autoWidth = autoWidth < (allCountys[i].cityName + allCountys[i].areaName + allCountys[i].pinYinChar).length ? (allCountys[i].cityName + allCountys[i].areaName + allCountys[i].pinYinChar).length: autoWidth;
+                    autoWidth = autoWidth < (allCountys[i].cityName + allCountys[i].areaName + allCountys[i].pinYinChar).length ? (allCountys[i].cityName + allCountys[i].areaName + allCountys[i].pinYinChar).length : autoWidth;
                     continue;
-                };
+                }
+                ;
                 if (v.toLowerCase() === allCountys[i].pinYin.substring(0, v.length)) {
                     htmlArr[htmlArr.length] = "<li><a class='allcityClass' href='javascript:' provinceId=" + allCountys[i].provinceId + " cityId=" + allCountys[i].cityId + " countyId=" + allCountys[i].id + ">" + allCountys[i].cityName + "-" + allCountys[i].areaName + " (<span style='color:red'>" + v.toLowerCase() + "</span>" + allCountys[i].pinYin.substring(v.length, allCountys[i].pinYin.length) + ")</a></li>"
                     if (htmlArr.length > 9) {
                         break;
                         return false;
                     }
-                    autoWidth = autoWidth < (allCountys[i].cityName + allCountys[i].areaName + allCountys[i].pinYin).length ? (allCountys[i].cityName + allCountys[i].areaName + allCountys[i].pinYin).length: autoWidth;
+                    autoWidth = autoWidth < (allCountys[i].cityName + allCountys[i].areaName + allCountys[i].pinYin).length ? (allCountys[i].cityName + allCountys[i].areaName + allCountys[i].pinYin).length : autoWidth;
                     continue;
-                };
+                }
+                ;
             }
             for (i = 0; i < allCitys.cities.length; i++) {
                 if (v.toUpperCase() === allCitys.cities[i].cityShortPY.substring(0, v.length)) {
@@ -164,80 +167,88 @@
                         break;
                         return false;
                     }
-                    autoWidth = autoWidth < (allCitys.cities[i].name + allCitys.cities[i].cityShortPY).length ? (allCitys.cities[i].name + allCitys.cities[i].cityShortPY).length: autoWidth;
+                    autoWidth = autoWidth < (allCitys.cities[i].name + allCitys.cities[i].cityShortPY).length ? (allCitys.cities[i].name + allCitys.cities[i].cityShortPY).length : autoWidth;
                     continue;
-                };
+                }
+                ;
                 if (v === allCitys.cities[i].name.substring(0, v.length)) {
                     htmlArr[htmlArr.length] = "<li><a class='allcityClass' href='javascript:' provinceId=" + allCitys.cities[i].provinceId + " cityId=" + allCitys.cities[i].id + "><span style='color:red'>" + v + "</span>" + allCitys.cities[i].name.substring(v.length, allCitys.cities[i].name.length) + " (" + allCitys.cities[i].cityShortPY + ")</a></li>";
                     if (htmlArr.length > 9) {
                         break;
                         return false;
                     }
-                    autoWidth = autoWidth < (allCitys.cities[i].name + allCitys.cities[i].cityShortPY).length ? (allCitys.cities[i].name + allCitys.cities[i].cityShortPY).length: autoWidth;
+                    autoWidth = autoWidth < (allCitys.cities[i].name + allCitys.cities[i].cityShortPY).length ? (allCitys.cities[i].name + allCitys.cities[i].cityShortPY).length : autoWidth;
                     continue;
-                };
+                }
+                ;
                 if (v.toLowerCase() === allCitys.cities[i].cityPinyin.substring(0, v.length)) {
                     htmlArr[htmlArr.length] = "<li><a class='allcityClass' href='javascript:' provinceId=" + allCitys.cities[i].provinceId + " cityId=" + allCitys.cities[i].id + ">" + allCitys.cities[i].name + " (<span style='color:red'>" + v.toLowerCase() + "</span>" + allCitys.cities[i].cityPinyin.substring(v.length, allCitys.cities[i].cityPinyin.length) + ")</a></li>"
                     if (htmlArr.length > 9) {
                         break;
                         return false;
                     }
-                    autoWidth = autoWidth < (allCitys.cities[i].name + allCitys.cities[i].cityPinyin).length ? (allCitys.cities[i].name + allCitys.cities[i].cityPinyin).length: autoWidth;
+                    autoWidth = autoWidth < (allCitys.cities[i].name + allCitys.cities[i].cityPinyin).length ? (allCitys.cities[i].name + allCitys.cities[i].cityPinyin).length : autoWidth;
                     continue;
-                };
-            };
+                }
+                ;
+            }
+            ;
             if (htmlArr == "" || htmlArr == null) {
                 $("#dimCityQuery ul").html("<li class='none'>对不起,没有找到该城市</li>");
                 return false;
             } else {
                 $("#dimCityQuery ul").html(htmlArr.join("")).find("li:first").addClass("current");
-            };
+            }
+            ;
             if (autoWidth < 200) {
                 autoWidth = 200;
             }
             $("#dimCityQuery").css("width", autoWidth).css("top", t + h - 1).css("left", l).show();
             $(".backifname").show();
-            $("html").click(function() {
+            $("html").click(function () {
                 $("#dimCityQuery").hide();
                 $(".backifname").hide();
             });
         });
     $("body").delegate("#dimCityQuery li", "hover",
-        function() {
+        function () {
             $(this).addClass("current").siblings().removeClass("current");
         },
-        function() {
+        function () {
             $(this).removeClass("current");
         });
     $("#dimCityQuery").delegate("", "selNext",
-        function() {
+        function () {
             var next = $(this).find("li.current").next();
             if (next.size() > 0) {
                 next.addClass("current").siblings().removeClass("current");
             }
             else {
                 $("#dimCityQuery li").removeClass("current").first().addClass("current");
-            };
+            }
+            ;
         });
     $("#dimCityQuery").delegate("", "selPrev",
-        function() {
+        function () {
             var prev = $(this).find("li.current").prev();
             if (prev.size() > 0) {
                 prev.addClass("current").siblings().removeClass("current");
             }
             else {
                 $("#dimCityQuery li").removeClass("current").last().addClass("current");
-            };
+            }
+            ;
         });
     $("#dimCityQuery").delegate("", "enter",
-        function(event) {
+        function (event) {
             var cur = $(this).find("li.current");
             if (cur.size() > 0) {
                 cur.find("a").trigger("click");
-            };
+            }
+            ;
         });
     $("body").delegate("#dimCityQuery li a.allcityClass", "click",
-        function() {
+        function () {
             var vm = $(this).text();
             var provinceId = $(this).attr("provinceId");
             var cityId = $(this).attr("cityId");
@@ -248,7 +259,8 @@
             for (i = 0; i < allProvinces.length; i++) {
                 if (allProvinces[i].id == provinceId) {
                     provinceName = allProvinces[i].provinceName;
-                };
+                }
+                ;
             }
             for (i = 0; i < allCitys.cities.length; i++) {
                 if (allCitys.cities[i].id == cityId) {
@@ -271,15 +283,13 @@
             }
             vm = vm.split("(");
             countyName = $.trim(vm[0]);
-            if (countyId == null || countyName == cityName)
-            {
-                if (currentClass == "proCityQuery")
-                {
+            if (countyId == null || countyName == cityName) {
+                if (currentClass == "proCityQuery") {
                     thisObj.trigger("click");
                     counties = [];
                     var j = 0;
                     $.each(allCountys,
-                        function(i, county) {
+                        function (i, county) {
                             if (county.cityId == cityId) {
                                 counties[j++] = county;
                             }
@@ -293,13 +303,12 @@
                     $(".con .provinceAll .list a").removeClass("current");
                     countyPage(1);
                 }
-                else if (currentClass == "proCityQueryAll")
-                {
+                else if (currentClass == "proCityQueryAll") {
                     thisObj.trigger("click");
                     countiesAll = [];
                     var j = 0;
                     $.each(allCountys,
-                        function(i, county) {
+                        function (i, county) {
                             if (county.cityId == cityId && county.areaName != cityName) {
                                 countiesAll[j++] = county;
                             }
@@ -314,11 +323,9 @@
                     allCountyPage(1);
                 }
             }
-            else
-            {
+            else {
                 rtn = provinceName + "-" + countyName;
-                if (currentClass == "proCityQueryAll")
-                {
+                if (currentClass == "proCityQueryAll") {
                     $("body").find(".proCityQueryAll").eq(clkIndex).val(rtn);
                     $("body").find(".proCityQueryAll").eq(clkIndex).trigger("change");
                     $(".provinceCityAll").find(".tabs").find("a").removeClass("current");
@@ -326,8 +333,7 @@
                     $(".provinceCityAll .con .list a").removeClass("current");
                     $(".provinceCityAll .con .list a input").removeClass("current");
                 }
-                if (currentClass == "proCityQuery")
-                {
+                if (currentClass == "proCityQuery") {
                     $("body").find(".proCityQuery").eq(clkIndex).val(rtn);
                     $("body").find(".proCityQuery").eq(clkIndex).trigger("change", [cityId, countyId]);
                     $(".provinceCity").find(".tabs").find("a").removeClass("current");
@@ -341,7 +347,7 @@
             return false;
         });
     $(".nomarl").live("focus",
-        function() {
+        function () {
             var ov = $.trim($(this).attr("ov"));
             var val = $.trim($(this).val());
             $(this).css({
@@ -352,7 +358,7 @@
             }
         });
     $(".nomarl").live("blur",
-        function() {
+        function () {
             var ov = $.trim($(this).attr("ov"));
             var val = $.trim($(this).val());
             if (val == "" || val == ov) {
@@ -369,13 +375,12 @@ function sendCitiesAjax() {
         url: '/static/js/plugins/queryCity/js/queryAllCities.js',
         async: false,
         dataType: "json",
-        success: function(data) {
+        success: function (data) {
             cities = data.cities;
             $("body").data("allExistCitys", data);
             viewHotCities();
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown)
-        {
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert("网络繁忙，请稍后再试！");
         }
     });
@@ -383,34 +388,35 @@ function sendCitiesAjax() {
 
 
 function viewHotCities() {
-    $.each(cities,function(i, city) {
+    $.each(cities, function (i, city) {
         if (city.hotCity) {
             $(".hotCity .list ul").append("<li><a><input type='button' style='background:none;border:0px;cursor: pointer;' onclick=hotCityAddrInput(\'" + city.provinceId + "," + city.id + "," + city.name + "\') id='" + city.id + "' value='" + city.name + "'></a></li>");
         }
     });
 }
-$(".province .pre a").bind('click',function() {
+
+$(".province .pre a").bind('click', function () {
     var provincePage = parseInt($('#provincePage').html());
     if (provincePage == 1) {
         return;
     }
     viewProvince(provincePage - 1);
 });
-$(".city .pre a").bind('click',function() {
+$(".city .pre a").bind('click', function () {
     var cityPages = parseInt($('#cityPage').html());
     if (cityPages == 1) {
         return;
     }
     cityPage(cityPages - 1);
 });
-$(".county .pre a").bind('click',function() {
+$(".county .pre a").bind('click', function () {
     var countyPages = parseInt($('#countyPage').html());
     if (countyPages == 1) {
         return;
     }
     countyPage(countyPages - 1);
 });
-$(".province .next a").bind('click',function() {
+$(".province .next a").bind('click', function () {
     var provincePage = parseInt($('#provincePage').html());
     provinceTotalPage = countProvincePages();
     if (provincePage == provinceTotalPage) {
@@ -418,13 +424,13 @@ $(".province .next a").bind('click',function() {
     }
     viewProvince(provincePage + 1);
 });
-$(".city .next a").bind('click',function() {
+$(".city .next a").bind('click', function () {
     if ($(this).hasClass("can")) {
         var cityPages = parseInt($('#cityPage').html());
         cityPage(cityPages + 1);
     }
 });
-$(".county .next a").bind('click',function() {
+$(".county .next a").bind('click', function () {
     if ($(this).hasClass("can")) {
         var countyPages = parseInt($('#countyPage').html());
         countyPage(countyPages + 1);
@@ -479,7 +485,7 @@ function viewCities(i) {
     citys = [];
     var j = 0;
     $.each(cities,
-        function(i, city) {
+        function (i, city) {
             if (city.provinceId == proId) {
                 citys[j++] = city;
             }
@@ -547,7 +553,7 @@ function viewCounties(i) {
     counties = [];
     var j = 0;
     $.each(areas,
-        function(i, county) {
+        function (i, county) {
             if (county.cityId == cityId) {
                 counties[j++] = county;
             }
@@ -603,7 +609,8 @@ function countyPage(page) {
     }
     for (var i = start; i < end; i++) {
         var c_id = counties[i].id;
-        var countyName = counties[i].areaName.substr(0, 4);;
+        var countyName = counties[i].areaName.substr(0, 4);
+        ;
         var li = $('<li><a href="javascript:onclick=addrInput(' + i + ')" id="' + c_id + '">' + countyName + '</a></li>');
         $(".county .list ul").append(li);
     }
@@ -620,21 +627,21 @@ function addrInput(i) {
     proId = $("body").data("pId");
     cityId = $("body").data("cId");
     var p = null;
-    $.each(provinces, function(i, province) {
+    $.each(provinces, function (i, province) {
         if (province.id == proId) {
             p = province.provinceName;
             return false;
         }
     });
     var c = null;
-    $.each(cities, function(i, city) {
+    $.each(cities, function (i, city) {
         if (city.id == cityId) {
             c = city.name;
             return false;
         }
     });
     var a = null;
-    $.each(counties, function(i, county) {
+    $.each(counties, function (i, county) {
         if (county.id == countyId) {
             a = county.areaName;
             return false;
@@ -646,20 +653,18 @@ function addrInput(i) {
     $("input.current1").val(rtn);
     $(".backifname").hide();
     var nameValue = $("input.current1").attr("name");
-    if (nameValue == 'order.sdeptProCity')
-    {
+    if (nameValue == 'order.sdeptProCity') {
         $("#deptCityId").val(cityId);
         $("input[name='order.sdeptProCity']").trigger("change", [cityId, countyId]);
     }
-    if (nameValue == 'consignor.deptProCity')
-    {
+    if (nameValue == 'consignor.deptProCity') {
         $("input[name='consignor.deptProCity']").trigger("change", [cityId, countyId]);
     }
-    if (nameValue == 'template.sdeptProCity')
-    {
+    if (nameValue == 'template.sdeptProCity') {
         $("input[name='template.sdeptProCity']").trigger("change", [cityId, countyId]);
     }
 }
+
 function hotCityAddrInput(proCityId) {
     proId = proCityId.split(",")[0];
     cityId = proCityId.split(",")[1];
@@ -667,7 +672,7 @@ function hotCityAddrInput(proCityId) {
     $("body").data("nameOfCity", cityCurName);
     $("body").data("pId", proId);
     $("body").data("cId", cityId);
-    $.each(provinces, function(i, pro) {
+    $.each(provinces, function (i, pro) {
         if (pro.id == proId) {
             $("body").data("pName", pro.provinceName);
         }
@@ -675,7 +680,7 @@ function hotCityAddrInput(proCityId) {
     counties = [];
     var j = 0;
     $.each(areas,
-        function(i, county) {
+        function (i, county) {
             if (county.cityId == cityId) {
                 counties[j++] = county;
             }
@@ -690,6 +695,7 @@ function hotCityAddrInput(proCityId) {
     $(".con .provinceAll .list a").removeClass("current");
     countyPage(1);
 }
+
 var allProvinces = null;
 var allCities = null;
 var allAreas = null;
@@ -698,71 +704,73 @@ var cityIdAll = null;
 var provinceAllTotalPage = null;
 var pa_pageSize = 12;
 var pa_currentPage = 1;
+
 function sendAllProvinceAjax() {
     $.ajax({
         type: "get",
         url: '/static/js/plugins/queryCity/js/queryAllProvinces.js',
         async: false,
         dataType: "json",
-        success: function(data) {
+        success: function (data) {
             allProvinces = data.provinces;
             $("body").data("allProvinces", allProvinces);
             viewAllProvince(1);
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown)
-        {
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(textStatus);
         }
     });
 }
+
 function sendAllCitiesAjax() {
     $.ajax({
         type: "get",
         url: '/static/js/plugins/queryCity/js/queryCities.js',
         async: false,
         dataType: "json",
-        success: function(data) {
+        success: function (data) {
             allCities = data.cities;
             $("body").data("CitysAll", data);
             viewAllHotCities();
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown)
-        {
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(textStatus);
         }
     });
 }
-function sendAllCountiesAjax(){
+
+function sendAllCountiesAjax() {
     $.ajax({
         type: "get",
         url: "/static/js/plugins/queryCity/js/queryAllAreas.js",
         async: false,
         dataType: "json",
-        success: function(data) {
+        success: function (data) {
             allAreas = data.areas;
             $("body").data("allCountys", data.areas);
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown)
-        {
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert("网络繁忙，请稍后再试！");
         }
     });
 }
+
 function viewAllHotCities() {
-    $.each(allCities,function(i, city) {
+    $.each(allCities, function (i, city) {
         if (city.hotCity) {
             $(".hotCityAll .list ul").append("<li><a><input type='button' style='background:none;border:0px;cursor: pointer;' onclick=hotCityAddrInputAll(\'" + city.provinceId + "," + city.id + "," + city.name + "\') id='" + city.id + "' value='" + city.name + "'></a></li>");
         }
     });
 }
-$(".provinceAll .pre a").bind('click', function() {
+
+$(".provinceAll .pre a").bind('click', function () {
     var provincePage1 = parseInt($('#provincePage1').html());
     if (provincePage1 == 1) {
         return;
     }
     viewAllProvince(provincePage1 - 1);
 });
-$(".cityAll .pre a").bind('click', function() {
+$(".cityAll .pre a").bind('click', function () {
     var cityPages1 = parseInt($('#cityPage1').html());
     if (cityPages1 == 1) {
         return;
@@ -770,7 +778,7 @@ $(".cityAll .pre a").bind('click', function() {
     allCityPage(cityPages1 - 1);
 });
 
-$(".countyAll .pre a").bind('click', function() {
+$(".countyAll .pre a").bind('click', function () {
     var countyPages = parseInt($('#countyPage1').html());
     if (countyPages == 1) {
         return;
@@ -778,7 +786,7 @@ $(".countyAll .pre a").bind('click', function() {
     allCountyPage(countyPages - 1);
 });
 
-$(".provinceAll .next a").bind('click', function() {
+$(".provinceAll .next a").bind('click', function () {
     var provincePage1 = parseInt($('#provincePage1').html());
     provinceAllTotalPage = countAllProvincePages();
     if (provincePage1 >= provinceAllTotalPage) {
@@ -787,14 +795,14 @@ $(".provinceAll .next a").bind('click', function() {
     viewAllProvince(provincePage1 + 1);
 });
 
-$(".cityAll .next a").bind('click', function() {
+$(".cityAll .next a").bind('click', function () {
     if ($(this).hasClass("can")) {
         var cityPages1 = parseInt($('#cityPage1').html());
         allCityPage(cityPages1 + 1);
     }
 });
 
-$(".countyAll .next a").bind('click', function() {
+$(".countyAll .next a").bind('click', function () {
     if ($(this).hasClass("can")) {
         var countyPages = parseInt($('#countyPage1').html());
         allCountyPage(countyPages + 1);
@@ -839,7 +847,7 @@ function viewAllProvince(page) {
         } else {
             p_name = allProvinces[i].provinceName.substr(0, 2);
         }
-        if(p_name == '四川'){
+        if (p_name == '四川') {
             var li = $('<li><a style="background: none repeat scroll 0% 0% transparent; border: 0px none;" href="javascript:onclick=viewAllCities(' + i + ');" id="' + p_id + '">' + p_name + '</a></li>');
             $(".provinceAll .list ul").append(li);
         }
@@ -856,11 +864,11 @@ function viewAllCities(i) {
     allCitys = [];
     var j = 0;
     $.each(allCities,
-        function(i, city) {
+        function (i, city) {
             //if (city.provinceId == allProId) { //可打开所有城市
             //    allCitys[j++] = city;
             //}
-            if(city.id == 'uIMcazYzTxeHdTDr+k7rilC+DzM='){
+            if (city.id == 'uIMcazYzTxeHdTDr+k7rilC+DzM=') {
                 allCitys[j++] = city;
             }
         });
@@ -918,6 +926,7 @@ function allCityPage(page) {
     $(".cityAll .list #cityPage1").remove();
     $(".cityAll .list").append("<label id='cityPage1' style='display:none;'>" + page + "</label>");
 }
+
 function viewAllCounties(i) {
     cityIdAll = allCitys[i].id;
     $("body").data("cAllId", cityIdAll);
@@ -926,7 +935,7 @@ function viewAllCounties(i) {
     countiesAll = [];
     var j = 0;
     $.each(allAreas,
-        function(i, countys) {
+        function (i, countys) {
             if (countys.cityId == cityIdAll) {
                 countiesAll[j++] = countys;
             }
@@ -981,7 +990,8 @@ function allCountyPage(page) {
     }
     for (var i = start; i < end; i++) {
         var c_id = countiesAll[i].id;
-        var countyName = countiesAll[i].areaName.substr(0, 4);;
+        var countyName = countiesAll[i].areaName.substr(0, 4);
+        ;
         var li = $('<li><a href="javascript:onclick=addrInputAll(' + i + ')" id="' + c_id + '">' + countyName + '</a></li>');
         $(".countyAll .list ul").append(li);
     }
@@ -998,26 +1008,26 @@ function addrInputAll(i) {
     allProId = $("body").data("pAllId");
     cityIdAll = $("body").data("cAllId");
     var p = null;
-    $.each(allProvinces, function(i, province) {
-            if (province.id == allProId) {
-                p = province.provinceName;
-                return false;
-            }
-        });
+    $.each(allProvinces, function (i, province) {
+        if (province.id == allProId) {
+            p = province.provinceName;
+            return false;
+        }
+    });
     var c = null;
-    $.each(allCities, function(i, city) {
-            if (city.id == cityIdAll) {
-                c = city.name;
-                return false;
-            }
-        });
+    $.each(allCities, function (i, city) {
+        if (city.id == cityIdAll) {
+            c = city.name;
+            return false;
+        }
+    });
     var a = null;
-    $.each(countiesAll, function(i, county) {
-            if (county.id == countyId) {
-                a = county.areaName;
-                return false;
-            }
-        });
+    $.each(countiesAll, function (i, county) {
+        if (county.id == countyId) {
+            a = county.areaName;
+            return false;
+        }
+    });
     var nameValue = $("input.current2");
     nameValue.removeClass("iGrays");
     $(".provinceCityAll").hide();
@@ -1029,16 +1039,13 @@ function addrInputAll(i) {
         $("#provinceId").val(allProId);
         $("#cityId").val(cityIdAll);
     }
-    if (nameValue == "order.caddrProCity")
-    {
+    if (nameValue == "order.caddrProCity") {
         $("input[name='order.caddrProCity']").trigger("change");
     }
-    if (nameValue == "consigneeInfo.addrProCity")
-    {
+    if (nameValue == "consigneeInfo.addrProCity") {
         $("input[name='consigneeInfo.addrProCity']").trigger("change");
     }
-    if (nameValue == 'template.caddrProCity')
-    {
+    if (nameValue == 'template.caddrProCity') {
         $("input[name='template.caddrProCity']").trigger("change");
     }
 }
@@ -1051,7 +1058,7 @@ function hotCityAddrInputAll(proCityId) {
     $("body").data("pAllId", allProId);
     $("body").data("cAllId", cityIdAll);
     $.each(allProvinces,
-        function(i, pro) {
+        function (i, pro) {
             if (pro.id == allProId) {
                 $("body").data("pAllName", pro.provinceName);
             }
@@ -1059,7 +1066,7 @@ function hotCityAddrInputAll(proCityId) {
     countiesAll = [];
     var j = 0;
     $.each(allAreas,
-        function(i, county) {
+        function (i, county) {
             if (county.cityId == cityIdAll) {
                 countiesAll[j++] = county;
             }

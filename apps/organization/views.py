@@ -13,6 +13,7 @@ class OrgListView(View):
     """
     课程机构功能
     """
+
     def get(self, request):
 
         org_list = CourseOrg.objects.all()
@@ -27,11 +28,11 @@ class OrgListView(View):
             org_list = CourseOrg.objects.filter(city_id=city_id)
 
         # 机构类别筛选
-        category = request.GET.get('ct','')
+        category = request.GET.get('ct', '')
         if category:
             org_list = CourseOrg.objects.filter(category=category)
 
-        sort = request.GET.get('sort','')
+        sort = request.GET.get('sort', '')
         if sort:
             if sort == 'students':
                 org_list = org_list.order_by('-students')
@@ -63,6 +64,7 @@ class AddAskView(View):
     """
     用户咨询
     """
+
     def post(self, request):
         add_ask = UserAskForm(request.POST)
         if add_ask.is_valid():
@@ -76,6 +78,7 @@ class OrgHomeView(View):
     """
     课程机构首页
     """
+
     def get(self, request, org_id):
         current_page = 'home'
         course_org = CourseOrg.objects.get(id=int(org_id))
@@ -83,7 +86,7 @@ class OrgHomeView(View):
         has_fav = False
         # 判断用户是否收藏
         if request.user.is_authenticated():
-            if UserFavorite.objects.filter(user=request.user,fav_id=course_org.id,fav_type=2):
+            if UserFavorite.objects.filter(user=request.user, fav_id=course_org.id, fav_type=2):
                 has_fav = True
         all_course = course_org.course_set.all()
         all_teacher = course_org.teacher_set.all()
@@ -101,13 +104,14 @@ class OrgCourseView(View):
     """
     课程详情
     """
+
     def get(self, request, org_id):
         current_page = 'course'
         course_org = CourseOrg.objects.get(id=int(org_id))
         # 判断用户是否收藏
         has_fav = False
         if request.user.is_authenticated():
-            if UserFavorite.objects.filter(user=request.user,fav_id=course_org.id,fav_type=2):
+            if UserFavorite.objects.filter(user=request.user, fav_id=course_org.id, fav_type=2):
                 has_fav = True
         all_course = course_org.course_set.all()
 
@@ -129,7 +133,7 @@ class OrgDescView(View):
         course_org = CourseOrg.objects.get(id=int(org_id))
         has_fav = False
         if request.user.is_authenticated():
-            if UserFavorite.objects.filter(user=request.user,fav_id=course_org.id,fav_type=2):
+            if UserFavorite.objects.filter(user=request.user, fav_id=course_org.id, fav_type=2):
                 has_fav = True
         return render(request, 'org-detail-desc.html', {
             'current_page': current_page,
@@ -147,7 +151,7 @@ class OrgTeacherView(View):
 
         has_fav = False
         if request.user.is_authenticated():
-            if UserFavorite.objects.filter(user=request.user,fav_id=course_org.id,fav_type=2):
+            if UserFavorite.objects.filter(user=request.user, fav_id=course_org.id, fav_type=2):
                 has_fav = True
 
         all_course = course_org.course_set.all()
@@ -166,6 +170,7 @@ class AddFavView(View):
     """
     用户收藏，用户取消收藏
     """
+
     def post(self, request):
         fav_id = request.POST.get('fav_id', 0)
         fav_type = request.POST.get('fav_type', 0)
@@ -174,7 +179,7 @@ class AddFavView(View):
             '''用户未登陆'''
             return HttpResponse('{"status":"fail", "msg":"用户未登录"}', content_type='application/json')
 
-        exist_record = UserFavorite.objects.filter(user=request.user,fav_id=int(fav_id),fav_type=int(fav_type))
+        exist_record = UserFavorite.objects.filter(user=request.user, fav_id=int(fav_id), fav_type=int(fav_type))
         if exist_record:
             '''如果存在记录，代表以收藏则删除收藏信息'''
             exist_record.delete()
@@ -192,6 +197,7 @@ class AddFavView(View):
 
 class TeacherListView(View):
     """教师列表展示"""
+
     def get(self, request):
 
         all_teachers = Teacher.objects.all()
@@ -224,6 +230,7 @@ class TeacherDetialView(View):
     """
     讲师详情
     """
+
     def get(self, request, teacher_id):
         teacher = Teacher.objects.get(id=int(teacher_id))
         courses = teacher.course_set.all()

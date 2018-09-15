@@ -60,6 +60,7 @@ class InlineStyleManager(object):
     def get_style(self, name='stacked'):
         return self.inline_styles.get(name)
 
+
 style_manager = InlineStyleManager()
 
 
@@ -75,21 +76,29 @@ class InlineStyle(object):
 
     def get_attrs(self):
         return {}
+
+
 style_manager.register_style('stacked', InlineStyle)
 
 
 class OneInlineStyle(InlineStyle):
     template = 'xadmin/edit_inline/one.html'
+
+
 style_manager.register_style("one", OneInlineStyle)
 
 
 class AccInlineStyle(InlineStyle):
     template = 'xadmin/edit_inline/accordion.html'
+
+
 style_manager.register_style("accordion", AccInlineStyle)
 
 
 class TabInlineStyle(InlineStyle):
     template = 'xadmin/edit_inline/tab.html'
+
+
 style_manager.register_style("tab", TabInlineStyle)
 
 
@@ -110,6 +119,8 @@ class TableInlineStyle(InlineStyle):
             'fields': fields,
             'readonly_fields': readonly_fields
         }
+
+
 style_manager.register_style("table", TableInlineStyle)
 
 
@@ -126,7 +137,6 @@ def replace_field_to_value(layout, av):
 
 
 class InlineModelAdmin(ModelFormAdminView):
-
     fk_name = None
     formset = BaseInlineFormSet
     extra = 3
@@ -352,7 +362,7 @@ class Inline(Fieldset):
     def __init__(self, rel_model):
         self.model = rel_model
         self.fields = []
-        super(Inline,self).__init__(legend="")
+        super(Inline, self).__init__(legend="")
 
     def render(self, form, form_style, context, template_pack=TEMPLATE_PACK, **kwargs):
         return ""
@@ -463,13 +473,15 @@ class InlineFormsetPlugin(BaseAdminPlugin):
             replace_field_to_value(formset.helper.layout, inline)
             model = inline.model
             opts = model._meta
-            fake_admin_class = type(str('%s%sFakeAdmin' % (opts.app_label, opts.model_name)), (object, ), {'model': model})
+            fake_admin_class = type(str('%s%sFakeAdmin' % (opts.app_label, opts.model_name)), (object,),
+                                    {'model': model})
             for form in formset.forms:
                 instance = form.instance
                 if instance.pk:
                     form.detail = self.get_view(
                         DetailAdminUtil, fake_admin_class, instance)
         return formset
+
 
 class DetailAdminUtil(DetailAdminView):
 
@@ -484,6 +496,7 @@ class DetailInlineFormsetPlugin(InlineFormsetPlugin):
         self.formsets = [self._get_detail_formset_instance(
             inline) for inline in self.inline_instances]
         return form
+
 
 site.register_plugin(InlineFormsetPlugin, ModelFormAdminView)
 site.register_plugin(DetailInlineFormsetPlugin, DetailAdminView)

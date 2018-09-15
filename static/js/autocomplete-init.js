@@ -1,13 +1,12 @@
-
 function makeAutocomplete(sel) {
     sel.autocomplete('/examples/autocomplete-products/', {
         delay: 200,
-        formatItem: function(row) {
+        formatItem: function (row) {
             return row[1];
         }
     });
 }
 
-$(function() {
+$(function () {
     makeAutocomplete($('.autocomplete-me'));
 })

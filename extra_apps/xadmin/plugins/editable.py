@@ -18,7 +18,6 @@ from xadmin.layout import FormHelper
 
 
 class EditablePlugin(BaseAdminPlugin):
-
     list_editable = []
 
     def __init__(self, admin_view):
@@ -32,7 +31,7 @@ class EditablePlugin(BaseAdminPlugin):
         return active
 
     def result_item(self, item, obj, field_name, row):
-        if self.list_editable and item.field and item.field.editable and (field_name in self.list_editable):            
+        if self.list_editable and item.field and item.field.editable and (field_name in self.list_editable):
             pk = getattr(obj, obj._meta.pk.attname)
             field_label = label_for_field(field_name, obj,
                                           model_admin=self.admin_view,
@@ -41,9 +40,10 @@ class EditablePlugin(BaseAdminPlugin):
 
             item.wraps.insert(0, '<span class="editable-field">%s</span>')
             item.btns.append((
-                '<a class="editable-handler" title="%s" data-editable-field="%s" data-editable-loadurl="%s">' +
-                '<i class="fa fa-edit"></i></a>') %
-                (_(u"Enter %s") % field_label, field_name, self.admin_view.model_admin_url('patch', pk) + '?fields=' + field_name))
+                                     '<a class="editable-handler" title="%s" data-editable-field="%s" data-editable-loadurl="%s">' +
+                                     '<i class="fa fa-edit"></i></a>') %
+                             (_(u"Enter %s") % field_label, field_name,
+                              self.admin_view.model_admin_url('patch', pk) + '?fields=' + field_name))
 
             if field_name not in self.editable_need_fields:
                 self.editable_need_fields[field_name] = item.field
@@ -53,8 +53,8 @@ class EditablePlugin(BaseAdminPlugin):
     def get_media(self, media):
         if self.editable_need_fields:
             media = media + self.model_form.media + \
-                self.vendor(
-                    'xadmin.plugin.editable.js', 'xadmin.widget.editable.css')
+                    self.vendor(
+                        'xadmin.plugin.editable.js', 'xadmin.widget.editable.css')
         return media
 
 
@@ -75,7 +75,7 @@ class EditPatchView(ModelFormAdminView, ListAdminView):
 
     def get_new_field_html(self, f):
         result = self.result_item(self.org_obj, f, {'is_display_first':
-                                  False, 'object': self.org_obj})
+                                                        False, 'object': self.org_obj})
         return mark_safe(result.text) if result.allow_tags else conditional_escape(result.text)
 
     def _get_new_field_html(self, field_name):
@@ -155,6 +155,7 @@ class EditPatchView(ModelFormAdminView, ListAdminView):
             result['errors'] = JsonErrorDict(form.errors, form).as_json()
 
         return self.render_response(result)
+
 
 site.register_plugin(EditablePlugin, ListAdminView)
 site.register_modelview(r'^(.+)/patch/$', EditPatchView, name='%s_%s_patch')

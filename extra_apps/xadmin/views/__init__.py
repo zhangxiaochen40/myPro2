@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
-from .base import BaseAdminPlugin, BaseAdminView, CommAdminView, ModelAdminView, filter_hook, csrf_protect_m, BaseAdminObject
+from .base import BaseAdminPlugin, BaseAdminView, CommAdminView, ModelAdminView, filter_hook, csrf_protect_m, \
+    BaseAdminObject
 
 from .list import ListAdminView
 from .edit import CreateAdminView, UpdateAdminView, ModelFormAdminView
@@ -18,6 +19,7 @@ __all__ = (
     'IndexView', 'LoginView', 'LogoutView',
     'filter_hook', 'csrf_protect_m'
 )
+
 
 # admin site-wide views
 def register_builtin_views(site):

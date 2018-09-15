@@ -29,11 +29,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 AUTHENTICATION_BACKENDS = (
     'users.views.CustomBackend',
 )
-
 
 # Application definition
 
@@ -144,12 +142,11 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 
-
 EMAIL_HOST = "smtp.163.com"
 EMAIL_PORT = 25
 EMAIL_HOST_USER = "zhangxiaochen41@163.com"
 EMAIL_HOST_PASSWORD = "admin1234"
-EMAIL_USE_TLS= False
+EMAIL_USE_TLS = False
 EMAIL_FROM = "zhangxiaochen41@163.com"
 
 MEDIA_URL = '/media/'

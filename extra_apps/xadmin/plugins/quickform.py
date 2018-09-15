@@ -75,10 +75,11 @@ class RelatedFieldWidgetWrapper(forms.Widget):
         self.widget.choices = self.choices
         output = []
         if self.add_url:
-            output.append(u'<a href="%s" title="%s" class="btn btn-primary btn-sm btn-ajax pull-right" data-for-id="id_%s" data-refresh-url="%s"><i class="fa fa-plus"></i></a>'
-                          % (
-                              self.add_url, (_('Create New %s') % self.rel.to._meta.verbose_name), name,
-                              "%s?_field=%s&%s=" % (self.rel_add_url, name, name)))
+            output.append(
+                u'<a href="%s" title="%s" class="btn btn-primary btn-sm btn-ajax pull-right" data-for-id="id_%s" data-refresh-url="%s"><i class="fa fa-plus"></i></a>'
+                % (
+                    self.add_url, (_('Create New %s') % self.rel.to._meta.verbose_name), name,
+                    "%s?_field=%s&%s=" % (self.rel_add_url, name, name)))
         output.extend(['<div class="control-wrap" id="id_%s_wrap_container">' % name,
                        self.widget.render(name, value, *args, **kwargs), '</div>'])
         return mark_safe(u''.join(output))
@@ -98,13 +99,15 @@ class RelatedFieldWidgetWrapper(forms.Widget):
 class QuickAddBtnPlugin(BaseAdminPlugin):
 
     def formfield_for_dbfield(self, formfield, db_field, **kwargs):
-        if formfield and self.model in self.admin_site._registry and isinstance(db_field, (models.ForeignKey, models.ManyToManyField)):
+        if formfield and self.model in self.admin_site._registry and isinstance(db_field, (
+        models.ForeignKey, models.ManyToManyField)):
             rel_model = get_model_from_relation(db_field)
             if rel_model in self.admin_site._registry and self.has_model_perm(rel_model, 'add'):
                 add_url = self.get_model_url(rel_model, 'add')
                 formfield.widget = RelatedFieldWidgetWrapper(
                     formfield.widget, db_field.rel, add_url, self.get_model_url(self.model, 'add'))
         return formfield
+
 
 site.register_plugin(QuickFormPlugin, ModelFormAdminView)
 site.register_plugin(QuickAddBtnPlugin, ModelFormAdminView)

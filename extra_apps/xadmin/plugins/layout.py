@@ -26,7 +26,6 @@ DEFAULT_LAYOUTS = {
 
 
 class GridLayoutPlugin(BaseAdminPlugin):
-
     grid_layouts = []
 
     _active_layouts = []

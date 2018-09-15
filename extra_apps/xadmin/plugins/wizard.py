@@ -3,6 +3,7 @@ from collections import OrderedDict
 from django import forms
 from django.db import models
 from django.template import loader
+
 try:
     from formtools.wizard.storage import get_storage
     from formtools.wizard.forms import ManagementForm
@@ -31,7 +32,6 @@ def normalize_name(name):
 
 
 class WizardFormPlugin(BaseAdminPlugin):
-
     wizard_form_list = None
     wizard_for_update = False
 
@@ -66,7 +66,8 @@ class WizardFormPlugin(BaseAdminPlugin):
 
     # Plugin replace methods
     def init_request(self, *args, **kwargs):
-        if self.request.is_ajax() or ("_ajax" in self.request.GET) or not hasattr(self.request, 'session') or (args and not self.wizard_for_update):
+        if self.request.is_ajax() or ("_ajax" in self.request.GET) or not hasattr(self.request, 'session') or (
+                args and not self.wizard_for_update):
             # update view
             return False
         return bool(self.wizard_form_list)
@@ -134,7 +135,8 @@ class WizardFormPlugin(BaseAdminPlugin):
         elif type(attrs) is dict:
             if attrs.get('fields', None):
                 return modelform_factory(self.model, form=forms.ModelForm,
-                                         fields=attrs['fields'], formfield_callback=self.admin_view.formfield_for_dbfield)
+                                         fields=attrs['fields'],
+                                         formfield_callback=self.admin_view.formfield_for_dbfield)
             if attrs.get('callback', None):
                 callback = attrs['callback']
                 if callable(callback):
@@ -341,5 +343,6 @@ class WizardFormPlugin(BaseAdminPlugin):
         }
 
         nodes.append(loader.render_to_string('xadmin/blocks/model_form.submit_line.wizard.html', context))
+
 
 site.register_plugin(WizardFormPlugin, ModelFormAdminView)

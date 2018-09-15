@@ -9,7 +9,6 @@ REFRESH_VAR = '_refresh'
 
 
 class RefreshPlugin(BaseAdminPlugin):
-
     refresh_times = []
 
     # Media

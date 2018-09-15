@@ -11,7 +11,6 @@ from django.db.models.sql.query import LOOKUP_SEP
 from django.utils.translation import ugettext as _
 from django.db import models
 
-
 from xadmin.sites import site
 from xadmin.views import BaseAdminPlugin, ListAdminView, CreateAdminView, UpdateAdminView, DeleteAdminView
 from xadmin.util import is_related_field2
@@ -20,7 +19,6 @@ RELATE_PREFIX = '_rel_'
 
 
 class RelateMenuPlugin(BaseAdminPlugin):
-
     related_list = []
     use_related_menu = True
 
@@ -46,7 +44,6 @@ class RelateMenuPlugin(BaseAdminPlugin):
                          if include_hidden or not f.remote_field.field.remote_field.is_hidden())
             fields = chain(fields, relations)
         return list(fields)
-
 
     def get_related_list(self):
         if hasattr(self, '_related_acts'):
@@ -85,24 +82,27 @@ class RelateMenuPlugin(BaseAdminPlugin):
             link = ''.join(('<li class="with_menu_btn">',
 
                             '<a href="%s?%s=%s" title="%s"><i class="icon fa fa-th-list"></i> %s</a>' %
-                          (
-                            reverse('%s:%s_%s_changelist' % (
+                            (
+                                reverse('%s:%s_%s_changelist' % (
                                     self.admin_site.app_name, label, model_name)),
-                            RELATE_PREFIX + lookup_name, str(instance.pk), verbose_name, verbose_name) if view_perm else
+                                RELATE_PREFIX + lookup_name, str(instance.pk), verbose_name,
+                                verbose_name) if view_perm else
                             '<a><span class="text-muted"><i class="icon fa fa-blank"></i> %s</span></a>' % verbose_name,
 
                             '<a class="add_link dropdown-menu-btn" href="%s?%s=%s"><i class="icon fa fa-plus pull-right"></i></a>' %
-                          (
-                            reverse('%s:%s_%s_add' % (
+                            (
+                                reverse('%s:%s_%s_add' % (
                                     self.admin_site.app_name, label, model_name)),
-                            RELATE_PREFIX + lookup_name, str(
-                instance.pk)) if add_perm else "",
+                                RELATE_PREFIX + lookup_name, str(
+                                    instance.pk)) if add_perm else "",
 
-                '</li>'))
+                            '</li>'))
             links.append(link)
         ul_html = '<ul class="dropdown-menu" role="menu">%s</ul>' % ''.join(
             links)
-        return '<div class="dropdown related_menu pull-right"><a title="%s" class="relate_menu dropdown-toggle" data-toggle="dropdown"><i class="icon fa fa-list"></i></a>%s</div>' % (_('Related Objects'), ul_html)
+        return '<div class="dropdown related_menu pull-right"><a title="%s" class="relate_menu dropdown-toggle" data-toggle="dropdown"><i class="icon fa fa-list"></i></a>%s</div>' % (
+        _('Related Objects'), ul_html)
+
     related_link.short_description = '&nbsp;'
     related_link.allow_tags = True
     related_link.allow_export = False
@@ -148,7 +148,8 @@ class RelateObject(object):
         else:
             to_model_name = force_text(self.to_model._meta.verbose_name)
 
-        return mark_safe(u"<span class='rel-brand'>%s <i class='fa fa-caret-right'></i></span> %s" % (to_model_name, force_text(self.opts.verbose_name_plural)))
+        return mark_safe(u"<span class='rel-brand'>%s <i class='fa fa-caret-right'></i></span> %s" % (
+        to_model_name, force_text(self.opts.verbose_name_plural)))
 
 
 class BaseRelateDisplayPlugin(BaseAdminPlugin):
@@ -233,6 +234,7 @@ class DeleteRelateDisplayPlugin(BaseRelateDisplayPlugin):
 
     def block_form_fields(self, context, nodes):
         return self._get_input()
+
 
 site.register_plugin(RelateMenuPlugin, ListAdminView)
 site.register_plugin(ListRelateDisplayPlugin, ListAdminView)

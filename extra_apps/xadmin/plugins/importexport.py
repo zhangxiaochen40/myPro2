@@ -54,6 +54,7 @@ from import_export.forms import (
 )
 from import_export.results import RowResult
 from import_export.signals import post_export, post_import
+
 try:
     from django.utils.encoding import force_text
 except ImportError:
@@ -301,7 +302,7 @@ class ImportProcessView(ImportBaseView):
                         )
             success_message = str(_(u'Import finished')) + ' , ' + str(_(u'Add')) + ' : %d' % result.totals[
                 RowResult.IMPORT_TYPE_NEW] + ' , ' + str(_(u'Update')) + ' : %d' % result.totals[
-                RowResult.IMPORT_TYPE_UPDATE]
+                                  RowResult.IMPORT_TYPE_UPDATE]
 
             messages.success(request, success_message)
             tmp_storage.remove()

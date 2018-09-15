@@ -1,4 +1,4 @@
-#coding:utf-8
+# coding:utf-8
 from xadmin.sites import site
 from xadmin.models import UserSettings
 from xadmin.views import BaseAdminPlugin, ModelFormAdminView, DetailAdminView
@@ -69,6 +69,7 @@ class ModelDetailPlugin(ModelFormPlugin):
     def block_after_fieldsets(self, context, node):
         # put portal key and submit url to page
         return "<input type='hidden' id='_portal_key' value='%s' />" % self._portal_key()
+
 
 site.register_plugin(ModelFormPlugin, ModelFormAdminView)
 site.register_plugin(ModelDetailPlugin, DetailAdminView)
