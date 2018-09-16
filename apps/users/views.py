@@ -161,3 +161,13 @@ class IndexView(View):
             'banner_courses': banner_courses,
             'course_orgs': course_orgs
         })
+
+
+class UserInfoView(View):
+    """
+    用户信息界面
+    """
+    def get(self,request):
+        return render(request, 'usercenter-info.html',{
+
+        })
