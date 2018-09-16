@@ -5,11 +5,11 @@ from django.views.generic import View
 from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 
 from .models import UserProfile, EmailVerifyRecord
-from .forms import LoginForm, RegisterForm, ForgetPwdForm, ModifyPwdForm
+from .forms import LoginForm, RegisterForm, ForgetPwdForm, ModifyPwdForm, UploadImageForm
 from utlis.email_send import send_register_email
 from organization.models import CourseOrg, Teacher
 from courses.models import Course
@@ -171,3 +171,15 @@ class UserInfoView(View):
         return render(request, 'usercenter-info.html',{
 
         })
+
+
+class UploadImageView(View):
+    """
+    修改用户头像
+    """
+    def get(self,request):
+        image_form = UploadImageForm(request.POST, request.FILES, instance=request.user)
+        if image_form.is_valid():
+            image_form.save()
+            return HttpResponse("{'status':'success'}", content_type='application/json')
+        return HttpResponse("{'status':'fail'}", content_type='application/json')
