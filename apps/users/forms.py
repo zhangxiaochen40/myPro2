@@ -31,5 +31,5 @@ class UploadImageForm(forms.ModelForm):
     用户修改头像
     """
     class Meta:
-        form = UserProfile
+        model = UserProfile
         fields = ['image']
