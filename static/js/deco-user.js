@@ -51,7 +51,7 @@ function changeEmailSubmit($btn) {
         cache: false,
         type: 'post',
         dataType: 'json',
-        url: "/users/sendemail_code/ ",
+        url: "/users/update_email/ ",
         data: $('#jsChangeEmailForm').serialize(),
         async: true,
         beforeSend: function (XMLHttpRequest) {

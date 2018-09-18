@@ -1,7 +1,7 @@
 # _*_ coding: utf-8 _*_
 from django.conf.urls import url, include
 
-from .views import UserInfoView, UploadImageView, UpdatePwdView, SendEmailCodeView
+from .views import UserInfoView, UploadImageView, UpdatePwdView, SendEmailCodeView, UpdateEmailView
 
 urlpatterns = [
     # 用户信息
@@ -13,5 +13,5 @@ urlpatterns = [
     # 发送邮箱验证码
     url(r'^sendemail_code/', SendEmailCodeView.as_view(), 'sendemail_code'),
     # 修改邮箱
-    url(r'^update_email')
+    url(r'^update_email', UpdateEmailView.as_view(), 'update_email')
 ]
