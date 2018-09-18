@@ -7,9 +7,10 @@ from django.db.models import Q
 from django.contrib.auth.hashers import make_password
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
+import json
 
 from .models import UserProfile, EmailVerifyRecord
-from .forms import LoginForm, RegisterForm, ForgetPwdForm, ModifyPwdForm, UploadImageForm
+from .forms import LoginForm, RegisterForm, ForgetPwdForm, ModifyPwdForm, UploadImageForm, UserInfoForm
 from utlis.email_send import send_register_email
 from organization.models import CourseOrg, Teacher
 from courses.models import Course
@@ -171,6 +172,14 @@ class UserInfoView(View):
         return render(request, 'usercenter-info.html',{
 
         })
+
+    def post(self,request):
+        user_info_form = UserInfoForm(request.POST, instance=request.user)
+        if user_info_form.is_valid():
+            user_info_form.save()
+            return HttpResponse("{'status':'success'}", content_type='application/json')
+        else:
+            return HttpResponse(json.dumps(user_info_form.errors), content_type='application/json')
 
 
 class UploadImageView(View):
