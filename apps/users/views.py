@@ -15,6 +15,7 @@ from utlis.email_send import send_register_email
 from organization.models import CourseOrg, Teacher
 from courses.models import Course
 from .models import Banner
+from operation.models import UserCourse
 
 
 class CustomBackend(ModelBackend):
@@ -233,3 +234,12 @@ class UpdateEmailView(View):
             return HttpResponse('{"status":"success"}', content_type='application/json')
         else:
             return HttpResponse("{'email':'验证码错误'}", content_type='application/json')
+
+
+class MyCoursesView(View):
+    """我的课程"""
+    def get(self, request):
+        my_course = UserCourse.objects.filter(user=request.user)
+        return render(request, 'usercenter-mycourse.html', {
+            'my_course': my_course
+        })
