@@ -23,7 +23,7 @@
 		<div class="personal_des permessage">
 			<div class="companycenter">
 				<div class="group_list brief">
-                    {% for course in my_course %}
+                    {% for course in course_list %}
                     <div class="module1_5 box">
                             <a href="{% url 'course:course_detail' course.course.id %}">
                                 <img width="214" height="190" class="scrollLoading" src="{{ MEDIA_URL }}{{ course.course.image }}"/>

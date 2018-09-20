@@ -2,6 +2,7 @@
 from django.conf.urls import url, include
 
 from .views import UserInfoView, UploadImageView, UpdatePwdView, SendEmailCodeView, UpdateEmailView, MyCoursesView
+from .views import MyfavOrgView, MyFavCourseView, MyFavTeacherView
 
 urlpatterns = [
     # 用户信息
@@ -15,6 +16,12 @@ urlpatterns = [
     # 修改邮箱
     url(r'^update_email', UpdateEmailView.as_view(), name='update_email'),
     # 我的课程
-    url(r'^mycourse/', MyCoursesView.as_view(), name='mycourse')
+    url(r'^mycourse/', MyCoursesView.as_view(), name='mycourse'),
+    # 课程机构收藏
+    url(r'^myfav_org', MyfavOrgView.as_view(), name='myfav_org'),
+    # 课程收藏
+    url(r'^myfav_course', MyFavCourseView.as_view(), name='myfav_course'),
+    # 收藏讲师
+    url(r'^myfav_teacher', MyFavTeacherView.as_view(), name='myfav_teacher')
 
 ]

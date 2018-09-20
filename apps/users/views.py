@@ -15,7 +15,7 @@ from utlis.email_send import send_register_email
 from organization.models import CourseOrg, Teacher
 from courses.models import Course
 from .models import Banner
-from operation.models import UserCourse
+from operation.models import UserCourse, UserFavorite
 
 
 class CustomBackend(ModelBackend):
@@ -242,4 +242,47 @@ class MyCoursesView(View):
         my_course = UserCourse.objects.filter(user=request.user)
         return render(request, 'usercenter-mycourse.html', {
             'my_course': my_course
+        })
+
+
+class MyfavOrgView(View):
+    """我收藏的课程机构"""
+    def get(self, request):
+        org_list = []
+        favs = UserFavorite.objects.filter(user=request.user, fav_type=2)
+        for fav in favs:
+            org = CourseOrg.objects.get(id=fav.fav_id)
+            org_list.append(org)
+        return render(request,'usercenter-fav-org.html',{
+            'org_list': org_list
+        })
+
+
+class MyFavCourseView(View):
+    """我的课程收藏"""
+    def get(self, request):
+        course_list = []
+        user_courses = UserFavorite.objects.filter(user=request.user, fav_type=1)
+        if user_courses:
+            for user_course in user_courses:
+                course = Course.objects.filter(id=user_course.fav_id)
+                course_list.append(course)
+        return render(request, 'usercenter-fav-course.html', {
+            'course_list': course_list
+        })
+
+
+class MyFavTeacherView(View):
+    """
+    我的教师收藏
+    """
+    def get(self, request):
+        treacher_list = []
+        teacher_ids = UserFavorite.objects.filter(user=request.user, fav_type=3)
+        if teacher_ids:
+            for teacher_id in teacher_ids:
+                teacher = Teacher.objects.get(id=teacher_id)
+                treacher_list.append(teacher)
+        return render(request, 'usercenter-fav-teacher.html', {
+            'treacher_list': treacher_list
         })
