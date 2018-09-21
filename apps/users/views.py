@@ -8,6 +8,7 @@ from django.contrib.auth.hashers import make_password
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 import json
+from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import UserProfile, EmailVerifyRecord
 from .forms import LoginForm, RegisterForm, ForgetPwdForm, ModifyPwdForm, UploadImageForm, UserInfoForm
@@ -15,7 +16,7 @@ from utlis.email_send import send_register_email
 from organization.models import CourseOrg, Teacher
 from courses.models import Course
 from .models import Banner
-from operation.models import UserCourse, UserFavorite
+from operation.models import UserCourse, UserFavorite, UserMessage
 
 
 class CustomBackend(ModelBackend):
@@ -143,6 +144,11 @@ class RegisterView(View):
             user_profile.is_active = False
             user_profile.save()
 
+            user_msg = UserMessage()
+            user_msg.user = request.user.id
+            user_msg.message = "欢迎注册"
+            user_msg.save()
+
             send_register_email(username, 'register')
             return render(request, 'login.html')
         else:
@@ -265,7 +271,7 @@ class MyFavCourseView(View):
         user_courses = UserFavorite.objects.filter(user=request.user, fav_type=1)
         if user_courses:
             for user_course in user_courses:
-                course = Course.objects.filter(id=user_course.fav_id)
+                course = Course.objects.get(id=user_course.fav_id)
                 course_list.append(course)
         return render(request, 'usercenter-fav-course.html', {
             'course_list': course_list
@@ -285,4 +291,23 @@ class MyFavTeacherView(View):
                 treacher_list.append(teacher)
         return render(request, 'usercenter-fav-teacher.html', {
             'treacher_list': treacher_list
+        })
+
+
+class MyMessageView(View):
+    """我的消息"""
+    def get(self, request):
+        all_messages = UserMessage.objects.filter(user=request.user.id)
+
+        #分页
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+
+        p = Paginator(all_messages, 5, request=request)
+
+        messages = p.page(page)
+        return render(request, 'usercenter-message.html', {
+            'user_msg': messages
         })
