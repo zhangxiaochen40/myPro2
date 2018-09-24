@@ -19,7 +19,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views.static import serve
-from users.views import LoginView, RegisterView, ActiveView, ForgetView, ResetPwdView, IndexView
+from users.views import LoginView, RegisterView, ActiveView, ForgetView, ResetPwdView, IndexView, LogoutView
 from organization.views import OrgListView
 from realOnline.settings import MEDIA_ROOT
 
@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),
     url(r'^$', IndexView.as_view(), name='index'),
     url(r'^login/$', LoginView.as_view(), name='login'),
+    url(r'^logout/$', LogoutView.as_view(), name='logout'),
     url(r'^register$', RegisterView.as_view(), name='register'),
     url(r'^captcha/', include('captcha.urls')),
     url(r'^active/(?P<active_code>.*)/$', ActiveView.as_view(), name='user_active'),

@@ -51,11 +51,11 @@
                                     </dl>
                                     <div class="btn">
                                         <a class="personcenter fl" href="{% url 'users:user_info' %}">进入个人中心</a>
-                                        <a class="fr" href="">退出</a>
+                                        <a class="fr" href="{% url 'logout' %}">退出</a>
                                     </div>
                                 </div>
                             </div>
-                            <a href="">
+                            <a href="{% url 'users:my_message' %}">
                                 <div class="msg-num"><span id="MsgNum">{{ request.user.get_unread_nums }}</span></div>
                             </a>
                         {% else %}
@@ -92,7 +92,7 @@
 <section>
         <div class="wp">
             <ul  class="crumbs">
-                <li><a href="index.html">首页</a>></li>
+                <li><a href="{% url 'index' %}">首页</a>></li>
                 <li><a href="{% url 'users:user_info' %}">个人中心</a>></li>
                 <li>个人信息</li>
             </ul>

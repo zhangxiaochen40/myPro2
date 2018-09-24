@@ -1,6 +1,6 @@
 # _*_ encoding:utf-8 _*_
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.views.generic import View
 from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
@@ -53,6 +53,13 @@ class LoginView(View):
                 return render(request, "login.html", {"msg": "用户名或密码错误！"})
         else:
             return render(request, "login.html", {"login_form": login_form})
+
+
+class LogoutView(View):
+    """推出登陆"""
+    def get(self,request):
+        logout(request)
+        return HttpResponseRedirect(reverse('index'))
 
 
 class ForgetView(View):
@@ -299,7 +306,13 @@ class MyMessageView(View):
     def get(self, request):
         all_messages = UserMessage.objects.filter(user=request.user.id)
 
-        #分页
+        # 進入消息頁面後把所有消息改稱以讀
+        all_unread_msgs = UserMessage.objects.filter(user=request.user.id, has_read=False)
+        for msg in all_unread_msgs:
+            msg.has_read = True
+            msg.save()
+
+        # 分页
         try:
             page = request.GET.get('page', 1)
         except PageNotAnInteger:
