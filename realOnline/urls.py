@@ -21,7 +21,7 @@ from django.views.generic import TemplateView
 from django.views.static import serve
 from users.views import LoginView, RegisterView, ActiveView, ForgetView, ResetPwdView, IndexView, LogoutView
 from organization.views import OrgListView
-from realOnline.settings import MEDIA_ROOT
+from realOnline.settings import MEDIA_ROOT, STATIC_ROOT
 
 import xadmin
 
@@ -46,6 +46,12 @@ urlpatterns = [
     # 配置上传文件的访问处理函数
     url(r'^media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),
 
+    url(r'^static/(?P<path>.*)$', serve, {'document_root': STATIC_ROOT}),
+
     # 个人中心的url配置
     url(r'^users/', include('users.urls',namespace='users'))
 ]
+
+
+handler404 = 'users.views.page_not_found'
+handler500 = 'users.views.page_error'
